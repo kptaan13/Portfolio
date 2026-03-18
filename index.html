@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rohan Kakkar — Creative Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="cur"></div>
+<div id="curtain"><div id="curtain-rk">RK</div></div>
+<div id="prog"></div>
+<div id="cur2"></div>
+<canvas id="trail-canvas"></canvas>
+<canvas id="stars"></canvas>
+<nav id="nav">
+  <a href="#home" class="nav-logo">R<em>.</em>Kakkar</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#experience">Journey</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:rohan61034kakkar@gmail.com" class="nav-btn">
+    <div class="nav-dot"></div>Available
+  </a>
+</nav>
+<div class="ham" id="ham" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+<div class="mob-menu" id="mobMenu">
+  <a href="#about" onclick="toggleMenu()">About</a>
+  <a href="#skills" onclick="toggleMenu()">Skills</a>
+  <a href="#projects" onclick="toggleMenu()">Work</a>
+  <a href="#experience" onclick="toggleMenu()">Journey</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+</div>
+<section class="hero" id="home">
+  <div class="hero-tag"><span></span><span id="tw"></span></div>
+  <h1 class="hero-h">
+    <span class="hr1"><span>Rohan</span></span>
+    <span class="hr2"><span>Kakkar</span></span>
+    <span class="hr3"><span>Creative Dev</span></span>
+  </h1>
+  <p class="hero-p">I build <strong>experiences people remember</strong> — cinematic interfaces, full-stack systems, and the invisible details that make everything feel inevitable.</p>
+  <div class="hero-ctas">
+    <a href="#projects" class="btn-g"><span>View My Work</span></a>
+    <a href="#contact" class="btn-t">Start a project <span>→</span></a>
+  </div>
+  <div class="hero-float">
+    <div class="hf-tag">React · Next.js</div>
+    <div class="hf-tag">Node.js · APIs</div>
+    <div class="hf-tag">HTML · CSS · JS</div>
+    <div class="hf-tag">Figma · UI/UX</div>
+    <div class="hf-tag">Python</div>
+  </div>
+  <div class="hero-scroll"><div class="sw"></div>Scroll to explore</div>
+  <div class="hero-bg-num">RK</div>
+</section>
+<div class="ticker">
+  <div class="ticker-track">
+    <span>Creative Development</span><span class="d">✦</span>
+    <span>React / Next.js</span><span class="d">✦</span>
+    <span>Node.js Backends</span><span class="d">✦</span>
+    <span>UI / UX Design</span><span class="d">✦</span>
+    <span>Python Scripting</span><span class="d">✦</span>
+    <span>Figma Prototyping</span><span class="d">✦</span>
+    <span>CSS Animation</span><span class="d">✦</span>
+    <span>REST APIs</span><span class="d">✦</span>
+    <span>Creative Development</span><span class="d">✦</span>
+    <span>React / Next.js</span><span class="d">✦</span>
+    <span>Node.js Backends</span><span class="d">✦</span>
+    <span>UI / UX Design</span><span class="d">✦</span>
+    <span>Python Scripting</span><span class="d">✦</span>
+    <span>Figma Prototyping</span><span class="d">✦</span>
+    <span>CSS Animation</span><span class="d">✦</span>
+    <span>REST APIs</span><span class="d">✦</span>
+  </div>
+</div>
+<!-- TECH STACK MARQUEE -->
+<div class="ts-strip">
+  <div class="ts-track">
+    <span>React</span><span class="ts-dot">·</span><span>Next.js</span><span class="ts-dot">·</span><span>Node.js</span><span class="ts-dot">·</span><span>TypeScript</span><span class="ts-dot">·</span><span>Tailwind CSS</span><span class="ts-dot">·</span><span>Supabase</span><span class="ts-dot">·</span><span>Figma</span><span class="ts-dot">·</span><span>Python</span><span class="ts-dot">·</span><span>REST APIs</span><span class="ts-dot">·</span><span>Git</span><span class="ts-dot">·</span><span>MongoDB</span><span class="ts-dot">·</span><span>Express</span><span class="ts-dot">·</span><span>React</span><span class="ts-dot">·</span><span>Next.js</span><span class="ts-dot">·</span><span>Node.js</span><span class="ts-dot">·</span><span>TypeScript</span><span class="ts-dot">·</span><span>Tailwind CSS</span><span class="ts-dot">·</span><span>Supabase</span><span class="ts-dot">·</span><span>Figma</span><span class="ts-dot">·</span><span>Python</span><span class="ts-dot">·</span><span>REST APIs</span><span class="ts-dot">·</span><span>Git</span><span class="ts-dot">·</span><span>MongoDB</span><span class="ts-dot">·</span><span>Express</span><span class="ts-dot">·</span>
+  </div>
+</div>
+
+<section class="sec" id="about">
+  <div class="about-grid">
+    <div class="about-frame rv-l">
+      <div class="af-corner"></div>
+      <div class="af-box">
+        <div class="af-code" id="afCode"></div>
+        <div class="af-overlay"></div>
+        <div class="af-init">RK</div>
+      </div>
+      <div class="af-badge">
+        <span class="af-n">2+</span>
+        <span class="af-l">Years of craft</span>
+      </div>
+    </div>
+    <div class="about-text">
+      <div class="rv">
+        <p class="sec-tag">Who I Am</p>
+        <h2 class="sec-h">Crafting code<br>with <em>intent</em></h2>
+      </div>
+      <div class="rv" style="transition-delay:.1s">
+        <p class="about-p" style="margin-top:2.2rem">I'm <strong>Rohan Kakkar</strong> — a Creative Developer who believes the web should be more than functional. It should be <strong>felt</strong>. Every project gets obsessive attention to detail, whether it's a micro-interaction or a full-stack architecture.</p>
+        <p class="about-p">My stack spans from pixel-perfect <strong>React interfaces</strong> to <strong>Node.js APIs</strong>, from <strong>Figma wireframes</strong> to <strong>Python automation</strong>. I don't just write code — I engineer experiences.</p>
+      </div>
+      <div class="rv" style="transition-delay:.2s">
+        <div class="pills">
+          <div class="pill">React</div><div class="pill">Next.js</div><div class="pill">Node.js</div>
+          <div class="pill">Express</div><div class="pill">Python</div><div class="pill">Figma</div>
+          <div class="pill">HTML5</div><div class="pill">CSS3</div><div class="pill">JavaScript</div>
+          <div class="pill">REST APIs</div><div class="pill">Git</div><div class="pill">GitHub</div>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="stat-n" data-c="6">0</span><span class="stat-l">Live Sites</span></div>
+          <div class="stat"><span class="stat-n" data-c="2">0</span><span class="stat-l">Years Exp</span></div>
+          <div class="stat"><span class="stat-n" data-c="5">0</span><span class="stat-l">Core Skills</span></div>
+          <div class="stat"><span class="stat-n" data-c="100">0</span><span class="stat-l">% Dedication</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sec alt" id="skills">
+  <div class="skillsec-bg" style="position:absolute;top:0;right:0;width:500px;height:500px;background:radial-gradient(circle,rgba(201,165,90,.04),transparent 65%);pointer-events:none;"></div>
+  <div class="rv">
+    <p class="sec-tag">Deep Expertise</p>
+    <h2 class="sec-h"><em>Skills</em> &amp; Mastery</h2>
+  </div>
+  <div class="skills-grid">
+    <div class="sk-list">
+      <div class="sk-item">
+        <div class="sk-head"><span class="sk-name">React / Next.js</span><span class="sk-val">85%</span></div>
+        <p class="sk-desc">Component architecture, hooks, SSR/SSG, routing, state management</p>
+        <div class="sk-bar"><div class="sk-bar-fill" style="width:85%"></div></div>
+        <div class="sk-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+      </div>
+      <div class="sk-item" style="transition-delay:.1s">
+        <div class="sk-head"><span class="sk-name">HTML · CSS · JS</span><span class="sk-val">95%</span></div>
+        <p class="sk-desc">Semantic HTML5, advanced CSS animations, ES6+, Canvas API, Web APIs</p>
+        <div class="sk-bar"><div class="sk-bar-fill" style="width:95%"></div></div>
+        <div class="sk-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div>
+      </div>
+      <div class="sk-item" style="transition-delay:.2s">
+        <div class="sk-head"><span class="sk-name">Node.js / Backend</span><span class="sk-val">75%</span></div>
+        <p class="sk-desc">Express.js, REST APIs, middleware, authentication, MongoDB basics</p>
+        <div class="sk-bar"><div class="sk-bar-fill" style="width:75%"></div></div>
+        <div class="sk-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      </div>
+      <div class="sk-item" style="transition-delay:.3s">
+        <div class="sk-head"><span class="sk-name">Figma / Design</span><span class="sk-val">70%</span></div>
+        <p class="sk-desc">Wireframing, prototyping, design systems, component libraries</p>
+        <div class="sk-bar"><div class="sk-bar-fill" style="width:70%"></div></div>
+        <div class="sk-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      </div>
+      <div class="sk-item" style="transition-delay:.4s">
+        <div class="sk-head"><span class="sk-name">Python</span><span class="sk-val">65%</span></div>
+        <p class="sk-desc">Scripting, automation, Flask basics, data handling, web scraping</p>
+        <div class="sk-bar"><div class="sk-bar-fill" style="width:65%"></div></div>
+        <div class="sk-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      </div>
+    </div>
+    <div class="rv" style="transition-delay:.15s">
+      <p style="font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:1.4rem;">Technology Stack</p>
+      <div class="tech-grid">
+        <div class="ti"><div class="ti-ico">⚛️</div><div class="ti-n">React</div><div class="ti-lv">Advanced</div></div>
+        <div class="ti"><div class="ti-ico">▲</div><div class="ti-n">Next.js</div><div class="ti-lv">Advanced</div></div>
+        <div class="ti"><div class="ti-ico">🟩</div><div class="ti-n">Node.js</div><div class="ti-lv">Proficient</div></div>
+        <div class="ti"><div class="ti-ico">🎨</div><div class="ti-n">CSS3</div><div class="ti-lv">Expert</div></div>
+        <div class="ti"><div class="ti-ico">⚡</div><div class="ti-n">JavaScript</div><div class="ti-lv">Expert</div></div>
+        <div class="ti"><div class="ti-ico">🖌️</div><div class="ti-n">Figma</div><div class="ti-lv">Proficient</div></div>
+        <div class="ti"><div class="ti-ico">🐍</div><div class="ti-n">Python</div><div class="ti-lv">Intermediate</div></div>
+        <div class="ti"><div class="ti-ico">🐙</div><div class="ti-n">Git/GitHub</div><div class="ti-lv">Proficient</div></div>
+        <div class="ti"><div class="ti-ico">📦</div><div class="ti-n">REST APIs</div><div class="ti-lv">Proficient</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="proj-sec" id="projects">
+  <div class="proj-head">
+    <div class="rv">
+      <p class="sec-tag">Selected Work</p>
+      <h2 class="sec-h">Six <em>Live</em><br><span class="ghost">Projects</span></h2>
+    </div>
+    <div class="proj-bignum rv-r">06</div>
+  </div>
+  <div class="proj-scroll" id="ps">
+    <!-- Appointly -->
+    <a class="pcard" href="https://appointly-mu.vercel.app/" target="_blank">
+      <div class="cv">
+        <div class="cv-appointly">
+          <div class="ap-grad"></div>
+          <div class="ap-nav">
+            <span class="ap-logo">📅 Appointly</span>
+            <div class="ap-dot">Booking open</div>
+          </div>
+          <div class="ap-hero">
+            <div class="ap-badge">✦ Premium Salon &amp; Spa</div>
+            <div class="ap-h1">Book your perfect<br><span>appointment</span></div>
+            <div class="ap-sub">New York · Real-time availability</div>
+            <div class="ap-btns"><div class="ap-b1"></div><div class="ap-b2"></div></div>
+          </div>
+          <div class="ap-cards">
+            <div class="ap-card"><div class="ap-cn">3.3K+</div><div class="ap-cl">Time Slots</div></div>
+            <div class="ap-card"><div class="ap-cn">22</div><div class="ap-cl">Bookings</div></div>
+            <div class="ap-card"><div class="ap-cn">5</div><div class="ap-cl">Services</div></div>
+            <div class="ap-card"><div class="ap-cn">4.9★</div><div class="ap-cl">Rating</div></div>
+          </div>
+        </div>
+        <div class="cv-fade" style="background:linear-gradient(to top,#040d1e,transparent)"></div>
+        <div class="cv-num">01 / 06</div>
+        <span class="cv-ext" onclick="event.stopPropagation();event.preventDefault();window.open('https://appointly-mu.vercel.app/','_blank')">↗</span>
+      </div>
+      <div class="cb">
+        <div class="cb-cat">SaaS · Booking System</div>
+        <h3 class="cb-name">Appointly</h3>
+        <p class="cb-desc">Full-stack salon booking platform. Supabase Auth + RLS, 4-step booking flow, admin dashboard with live analytics and Chart.js charts.</p>
+        <div class="cb-tags"><span class="ctag">React</span><span class="ctag">Supabase</span><span class="ctag">TypeScript</span><span class="ctag">Tailwind</span></div>
+        <div class="cb-links"><span class="clink-a">Live Site →</span><span class="clink-b">GitHub ↗</span></div>
+      </div>
+    </a>
+    <!-- Aurora -->
+    <a class="pcard" href="https://kptaan13-aurora-agency.netlify.app/" target="_blank">
+      <div class="cv">
+        <div class="cv-aurora">
+          <div class="au-grd"></div>
+          <div class="aurora-nav"><span class="au-logo">AURORA</span><div class="au-links"><span></span><span></span><span></span></div></div>
+          <div class="aurora-hero">
+            <div class="au-ey"></div>
+            <div class="au-t">We</div><div class="au-t it">Make</div><div class="au-t gd">Magic.</div>
+            <div class="au-sub"><span></span><span class="s"></span></div>
+            <div class="au-btns"><div class="au-b1"></div><div class="au-b2"></div></div>
+          </div>
+          <div class="au-orb"></div>
+          <div class="au-bignum">02</div>
+        </div>
+        <div class="cv-fade"></div>
+        <div class="cv-num">02 / 06</div>
+        <span class="cv-ext" onclick="event.stopPropagation();event.preventDefault();window.open('https://kptaan13-aurora-agency.netlify.app/','_blank')">↗</span>
+      </div>
+      <div class="cb">
+        <div class="cb-cat">Creative Agency</div>
+        <h3 class="cb-name">Aurora Agency</h3>
+        <p class="cb-desc">Dark-gold luxury agency site. Magnetic cursor, animated hero, geometric SVG grid, and cinematic composition.</p>
+        <div class="cb-tags"><span class="ctag">HTML/CSS</span><span class="ctag">Vanilla JS</span><span class="ctag">Animations</span><span class="ctag">Custom Cursor</span></div>
+        <div class="cb-links"><span class="clink-a">Live Site →</span><span class="clink-b">GitHub ↗</span></div>
+      </div>
+    </a>
+    <!-- Pulse -->
+    <a class="pcard" href="https://kptaan13-pulse-nightlife.netlify.app/" target="_blank">
+      <div class="cv">
+        <div class="cv-pulse">
+          <div class="pu-grid"></div><div class="pu-scan"></div>
+          <div class="pu-nav"><span class="pu-logo">PULSE</span><div class="pu-live">● LIVE</div></div>
+          <div class="pu-center"><div class="pu-t1">FEEL</div><div class="pu-t2">THE</div><div class="pu-t3">PULSE</div></div>
+          <div class="pu-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+        <div class="cv-fade" style="background:linear-gradient(to top,#020308,transparent)"></div>
+        <div class="cv-num">03 / 06</div>
+        <span class="cv-ext" onclick="event.stopPropagation();event.preventDefault();window.open('https://kptaan13-pulse-nightlife.netlify.app/','_blank')">↗</span>
+      </div>
+      <div class="cb">
+        <div class="cb-cat">Nightlife · Music</div>
+        <h3 class="cb-name">Pulse Nightlife</h3>
+        <p class="cb-desc">Cyberpunk neon club site. 80-bar audio visualizer on Canvas, real-time countdown, glitch text.</p>
+        <div class="cb-tags"><span class="ctag">Canvas API</span><span class="ctag">Glitch FX</span><span class="ctag">Countdown</span><span class="ctag">Neon CSS</span></div>
+        <div class="cb-links"><span class="clink-a">Live Site →</span><span class="clink-b">GitHub ↗</span></div>
+      </div>
+    </a>
+    <!-- Verdure -->
+    <a class="pcard" href="https://kptaan13-verdure-restaurant.netlify.app/" target="_blank">
+      <div class="cv">
+        <div class="cv-verdure">
+          <div class="vd-left">
+            <div class="vd-tag"></div>
+            <div class="vd-h1">Where <em>Nature</em></div><div class="vd-h2">Meets the Table</div>
+            <div class="vd-subs"><span></span><span></span></div><div class="vd-btn"></div>
+          </div>
+          <div class="vd-right">
+            <div class="vd-plate"><div class="vd-inner">🌿</div></div>
+            <div class="vd-badge">100% Organic</div>
+          </div>
+          <div class="vd-bottom">
+            <div class="vd-tab a">Starters</div><div class="vd-tab">Mains</div><div class="vd-tab">Desserts</div><div class="vd-tab">Wine</div>
+          </div>
+        </div>
+        <div class="cv-num">04 / 06</div>
+        <span class="cv-ext" style="background:rgba(250,246,239,.1);color:#2d4a2d;border-color:rgba(45,74,45,.3)" onclick="event.stopPropagation();event.preventDefault();window.open('https://kptaan13-verdure-restaurant.netlify.app/','_blank')">↗</span>
+      </div>
+      <div class="cb">
+        <div class="cb-cat">Restaurant · F&amp;B</div>
+        <h3 class="cb-name">Verdure Restaurant</h3>
+        <p class="cb-desc">Farm-to-table restaurant. Interactive tabbed menu with 24 dishes, reservation form, botanical animations.</p>
+        <div class="cb-tags"><span class="ctag">Tab System</span><span class="ctag">Forms</span><span class="ctag">Scroll FX</span><span class="ctag">CSS Vars</span></div>
+        <div class="cb-links"><span class="clink-a">Live Site →</span><span class="clink-b">GitHub ↗</span></div>
+      </div>
+    </a>
+    <!-- Axiom -->
+    <a class="pcard" href="https://kptaan13-axiom-saas.netlify.app/" target="_blank">
+      <div class="cv">
+        <div class="cv-axiom">
+          <div class="ax-parts"></div>
+          <div class="ax-pts"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="ax-nav"><span class="ax-logo">Axiom</span><div class="ax-nls"><span></span><span></span><span></span></div><div class="ax-cta"></div></div>
+          <div class="ax-body">
+            <div class="ax-side"><div class="ax-si a"></div><div class="ax-si"></div><div class="ax-si"></div><div class="ax-si"></div><div class="ax-si"></div></div>
+            <div class="ax-main">
+              <div class="ax-cards">
+                <div class="ax-card"><div class="ax-cn">2.8M</div><div class="ax-cl"></div></div>
+                <div class="ax-card"><div class="ax-cn">43ms</div><div class="ax-cl"></div></div>
+                <div class="ax-card"><div class="ax-cn">0.12%</div><div class="ax-cl"></div></div>
+                <div class="ax-card"><div class="ax-cn">1.7TB</div><div class="ax-cl"></div></div>
+              </div>
+              <div class="ax-chart"><div class="ax-cl2"></div><div class="ax-bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="cv-fade" style="background:linear-gradient(to top,#040611,transparent)"></div>
+        <div class="cv-num">05 / 06</div>
+        <span class="cv-ext" onclick="event.stopPropagation();event.preventDefault();window.open('https://kptaan13-axiom-saas.netlify.app/','_blank')">↗</span>
+      </div>
+      <div class="cb">
+        <div class="cb-cat">SaaS · Analytics</div>
+        <h3 class="cb-name">Axiom SaaS</h3>
+        <p class="cb-desc">Analytics platform UI. Particle network, live chart canvas, animated stat counters, 3D dashboard preview.</p>
+        <div class="cb-tags"><span class="ctag">Canvas API</span><span class="ctag">Particles</span><span class="ctag">3D CSS</span><span class="ctag">Counters</span></div>
+        <div class="cb-links"><span class="clink-a">Live Site →</span><span class="clink-b">GitHub ↗</span></div>
+      </div>
+    </a>
+    <!-- Solstice -->
+    <a class="pcard" href="https://kptaan13-solstice-watches.netlify.app/" target="_blank">
+      <div class="cv">
+        <div class="cv-solstice">
+          <div class="sl-grain"></div>
+          <div class="sl-nav"><span class="sl-logo">Solstice</span><div class="sl-nls"><span></span><span></span><span></span></div></div>
+          <div class="sl-body">
+            <div class="sl-left">
+              <div class="sl-ey"></div><div class="sl-h1">Time is</div><div class="sl-h2">Mastery</div>
+              <div class="sl-sub"></div><div class="sl-btns"><div class="sl-b1"></div><div class="sl-b2"></div></div>
+            </div>
+            <div class="sl-right">
+              <div class="watch">
+                <div class="watch-bezel"></div>
+                <div class="watch-dial">
+                  <div class="wh wh-h" id="wHour"></div>
+                  <div class="wh wh-m" id="wMin"></div>
+                  <div class="wh wh-s" id="wSec"></div>
+                  <div class="watch-center"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cv-fade" style="background:linear-gradient(to top,#07070b,transparent)"></div>
+        <div class="cv-num">06 / 06</div>
+        <span class="cv-ext" onclick="event.stopPropagation();event.preventDefault();window.open('https://kptaan13-solstice-watches.netlify.app/','_blank')">↗</span>
+      </div>
+      <div class="cb">
+        <div class="cb-cat">Luxury · Watches</div>
+        <h3 class="cb-name">Solstice Watches</h3>
+        <p class="cb-desc">Swiss luxury watch brand. Live working clock, 3D tilt, animated gear rotation, trailing cursor, editorial layout.</p>
+        <div class="cb-tags"><span class="ctag">Live Clock</span><span class="ctag">3D Tilt</span><span class="ctag">Custom Cursor</span><span class="ctag">SVG Anim</span></div>
+        <div class="cb-links"><span class="clink-a">Live Site →</span><span class="clink-b">GitHub ↗</span></div>
+      </div>
+    </a>
+  </div>
+  <div class="scroll-nav rv">
+    <div class="sn-btn" onclick="scrollP(-1)">←</div>
+    <div class="sn-btn" onclick="scrollP(1)">→</div>
+    <span class="sn-txt">Drag or click arrows to browse</span>
+  </div>
+</section>
+<section class="code-sec" id="code">
+  <div class="rv"><p class="sec-tag">Under the Hood</p><h2 class="sec-h">Code with <em>Depth</em></h2></div>
+  <div class="code-inner">
+    <div>
+      <p class="code-claim">Not just a designer who codes — a <span>developer who thinks in systems.</span></p>
+      <div class="code-pts">
+        <div class="cp rv" style="transition-delay:.05s"><div class="cp-ico">⚛️</div><div><div class="cp-t">React Architecture</div><div class="cp-d">Custom hooks, context API, compound components, performance optimization.</div></div></div>
+        <div class="cp rv" style="transition-delay:.12s"><div class="cp-ico">🌐</div><div><div class="cp-t">Full-Stack Thinking</div><div class="cp-d">Node.js REST APIs with Express, JWT auth, middleware chains, error handling.</div></div></div>
+        <div class="cp rv" style="transition-delay:.19s"><div class="cp-ico">🎨</div><div><div class="cp-t">CSS Mastery</div><div class="cp-d">Custom properties, keyframe choreography, clip-path morphing, scroll-driven animations.</div></div></div>
+        <div class="cp rv" style="transition-delay:.26s"><div class="cp-ico">🚀</div><div><div class="cp-t">Canvas &amp; Web APIs</div><div class="cp-d">Canvas 2D for visualizers, IntersectionObserver, requestAnimationFrame loops.</div></div></div>
+      </div>
+    </div>
+    <div class="code-block rv-r" style="transition-delay:.2s">
+      <div class="cb-bar">
+        <div class="cb-d cbd1"></div><div class="cb-d cbd2"></div><div class="cb-d cbd3"></div>
+        <span class="cb-fn">useParticleSystem.js</span>
+      </div>
+      <div class="cb-body" id="codeOut"></div>
+    </div>
+  </div>
+</section>
+<section class="sec" id="experience">
+  <div class="rv"><p class="sec-tag">My Journey</p><h2 class="sec-h">Where I've <em>Grown</em></h2></div>
+  <div class="exp-grid">
+    <div class="exp-items" style="position:relative;">
+      <div class="exp-line"></div>
+      <div class="ei"><div class="ei-dot"></div><div class="ei-yr">2025 — Present</div><div class="ei-role">Freelance Creative Developer</div><div class="ei-co">Independent · Remote Worldwide</div><div class="ei-desc">Designing and engineering complete digital experiences — six production-deployed sites showcasing luxury, SaaS, nightlife, restaurant, booking, and editorial styles.</div></div>
+      <div class="ei"><div class="ei-dot"></div><div class="ei-yr">2024</div><div class="ei-role">Advanced Frontend &amp; Full-Stack</div><div class="ei-co">Intensive Self-Study</div><div class="ei-desc">Deep-dived into React, Next.js App Router, Node.js/Express, REST API patterns, and advanced CSS animation including Canvas API and Web Animations API.</div></div>
+      <div class="ei"><div class="ei-dot"></div><div class="ei-yr">2023</div><div class="ei-role">Foundation — The Spark</div><div class="ei-co">Beginning the Craft</div><div class="ei-desc">Mastered HTML5, CSS3, and JavaScript fundamentals. Built first interactive projects. Discovered a deep passion for design, motion, and code.</div></div>
+    </div>
+    <div class="exp-right rv" style="transition-delay:.2s">
+      <div class="quote-box">
+        <div class="qm">"</div>
+        I don't just build websites. I build <span style="color:var(--gold)">experiences people remember</span> long after they close the tab.
+        <div class="qa">Rohan Kakkar · Creative Developer</div>
+      </div>
+      <div class="vals">
+        <div class="val"><div class="val-ico">✦</div><div class="val-t">Design-Led</div><div class="val-d">Aesthetic direction comes first. Clear visual identity before code is written.</div></div>
+        <div class="val"><div class="val-ico">⚡</div><div class="val-t">Performance</div><div class="val-d">Beautiful means nothing without fast. Clean, optimized, production-ready code.</div></div>
+        <div class="val"><div class="val-ico">🌐</div><div class="val-t">Full-Stack</div><div class="val-d">From Figma frames to Node APIs — the full stack of modern web development.</div></div>
+        <div class="val"><div class="val-ico">🔬</div><div class="val-t">Detail-Obsessed</div><div class="val-d">The gap between good and unforgettable lives in the micro-details. I live there.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sec alt" id="contact" style="position:relative;overflow:hidden;">
+  <div class="contact-glow"></div>
+  <div class="contact-inner">
+    <div>
+      <div class="rv">
+        <p class="sec-tag">Get In Touch</p>
+        <h2 class="contact-h">Let's build<br>something <em>great</em></h2>
+        <p class="contact-sub">Have a project, a role, or just want to say hi? I'm always open to new work, collaborations, and interesting conversations.</p>
+      </div>
+      <div class="contact-links rv" style="transition-delay:.15s">
+        <a href="mailto:rohan61034kakkar@gmail.com" class="cl-item">
+          <div class="cl-ico">✉</div>
+          <div class="cl-info"><span class="cl-lbl">Email</span><span class="cl-val">rohan61034kakkar@gmail.com</span></div>
+        </a>
+        <a href="https://github.com/kptaan13" target="_blank" class="cl-item">
+          <div class="cl-ico" style="font-size:.7rem;font-family:'DM Mono',monospace;">GH</div>
+          <div class="cl-info"><span class="cl-lbl">GitHub</span><span class="cl-val">github.com/kptaan13</span></div>
+        </a>
+        <a href="https://www.linkedin.com/in/thekrohankakkar/" target="_blank" class="cl-item">
+          <div class="cl-ico" style="font-size:.7rem;font-weight:700;font-family:'DM Mono',monospace;">in</div>
+          <div class="cl-info"><span class="cl-lbl">LinkedIn</span><span class="cl-val">linkedin.com/in/thekrohankakkar</span></div>
+        </a>
+      </div>
+    </div>
+    <div class="rv" style="transition-delay:.2s">
+      <form class="form" id="theForm" onsubmit="doForm(event)">
+        <input type="checkbox" name="botcheck" style="display:none;">
+        <div class="frow">
+          <div class="fg"><label>First Name</label><input type="text" name="First Name" placeholder="Jane" required></div>
+          <div class="fg"><label>Last Name</label><input type="text" name="Last Name" placeholder="Smith" required></div>
+        </div>
+        <div class="fg"><label>Email</label><input type="email" name="email" placeholder="jane@company.com" required></div>
+        <div class="fg">
+          <label>Project Type</label>
+          <select name="Project Type">
+            <option value="">Select type…</option>
+            <option>Website Design &amp; Development</option>
+            <option>React / Next.js App</option>
+            <option>Full-Stack Web App</option>
+            <option>UI/UX Design</option>
+            <option>Python Automation</option>
+            <option>Other / Let's talk</option>
+          </select>
+        </div>
+        <div class="fg"><label>Message</label><textarea name="message" placeholder="Tell me about your project, timeline, and goals…"></textarea></div>
+        <button type="submit" class="form-btn">
+          <span>Send Message</span>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1 6.5h11M7 1l5.5 5.5L7 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div class="form-ok" id="formOk">✓ Message received! I'll reply within 24 hours.</div>
+      </form>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="ft-grid">
+    <div>
+      <span class="ft-brand">Rohan Kakkar</span>
+      <p class="ft-bio">Creative Developer crafting immersive digital experiences at the intersection of design and engineering. Available for freelance worldwide.</p>
+    </div>
+    <div class="ft-col"><h4>Work</h4><ul>
+      <li><a href="https://kptaan13-aurora-agency.netlify.app/" target="_blank">Aurora Agency</a></li>
+      <li><a href="https://kptaan13-pulse-nightlife.netlify.app/" target="_blank">Pulse Nightlife</a></li>
+      <li><a href="https://kptaan13-verdure-restaurant.netlify.app/" target="_blank">Verdure Restaurant</a></li>
+      <li><a href="https://kptaan13-axiom-saas.netlify.app/" target="_blank">Axiom SaaS</a></li>
+      <li><a href="https://kptaan13-solstice-watches.netlify.app/" target="_blank">Solstice Watches</a></li>
+      <li><a href="https://appointly-mu.vercel.app/" target="_blank">Appointly</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Skills</h4><ul>
+      <li><a href="#skills">React / Next.js</a></li>
+      <li><a href="#skills">Node.js</a></li>
+      <li><a href="#skills">HTML · CSS · JS</a></li>
+      <li><a href="#skills">Figma</a></li>
+      <li><a href="#skills">Python</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Connect</h4><ul>
+      <li><a href="https://github.com/kptaan13" target="_blank">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/thekrohankakkar/" target="_blank">LinkedIn</a></li>
+      <li><a href="mailto:rohan61034kakkar@gmail.com">Email Me</a></li>
+    </ul></div>
+  </div>
+  <div class="ft-bottom">
+    <span class="ft-copy">© 2026 Rohan Kakkar · Designed &amp; Built from scratch</span>
+    <span class="ft-copy">rohan61034kakkar@gmail.com</span>
+  </div>
+</footer>
+<script src="script.js" defer></script>
+</body>
+</html>
