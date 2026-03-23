@@ -308,6 +308,23 @@ nav.s{background:rgba(7,7,12,.88);backdrop-filter:blur(20px);border-bottom-color
 .wh-s{width:1px;height:30px;background:#e04040;transform:translateX(-50%) rotate(0deg);}
 .watch-center{position:absolute;width:5px;height:5px;border-radius:50%;background:#f0c84a;z-index:5;box-shadow:0 0 5px rgba(240,200,74,.6);}
 .sl-grain{position:absolute;inset:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");z-index:1;}
+/* Mapleins — AI Canadian job platform */
+.cv-mapleins{background:#fff;position:relative;overflow:hidden;}
+.ml-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 90% 10%,rgba(214,40,40,.06),transparent 55%),radial-gradient(ellipse at 10% 90%,rgba(214,40,40,.04),transparent 50%);z-index:1;}
+.ml-nav{position:absolute;top:0;left:0;right:0;padding:.5rem 1rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(214,40,40,.1);background:rgba(255,255,255,.9);backdrop-filter:blur(4px);z-index:7;}
+.ml-logo{font-size:.62rem;font-weight:700;letter-spacing:.05em;color:#1a1a2e;}
+.ml-tag{font-size:.4rem;letter-spacing:.12em;text-transform:uppercase;color:#d62828;border:1px solid rgba(214,40,40,.25);padding:.15rem .45rem;border-radius:20px;}
+.ml-hero{position:absolute;top:2.2rem;left:0;right:0;text-align:center;z-index:6;padding:0 .8rem;}
+.ml-h1{font-size:.72rem;font-weight:700;color:#1a1a2e;letter-spacing:.02em;line-height:1.1;}
+.ml-h2{font-size:.72rem;font-weight:700;color:#d62828;letter-spacing:.02em;line-height:1.1;}
+.ml-underline{width:2rem;height:2px;background:#d62828;margin:.3rem auto .25rem;}
+.ml-sub{font-size:.48rem;color:rgba(26,26,46,.45);letter-spacing:.06em;text-transform:uppercase;}
+.ml-steps{position:absolute;bottom:1.8rem;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:.4rem;z-index:6;}
+.ml-step{display:flex;flex-direction:column;align-items:center;gap:.1rem;background:#fff;border:1px solid rgba(214,40,40,.2);border-radius:5px;padding:.3rem .5rem;}
+.ml-sn{font-size:.38rem;font-weight:700;color:#d62828;}
+.ml-sl{font-size:.4rem;color:#1a1a2e;font-weight:500;}
+.ml-arr{font-size:.5rem;color:rgba(214,40,40,.4);}
+.ml-badge{position:absolute;bottom:.55rem;left:50%;transform:translateX(-50%);font-size:.4rem;font-weight:600;color:#fff;background:#d62828;padding:.2rem .7rem;border-radius:20px;white-space:nowrap;z-index:6;letter-spacing:.04em;}
 /* DevCard — link-in-bio for devs */
 .cv-devcard{background:#08040f;}
 .dc-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(139,92,246,.12),transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(59,130,246,.08),transparent 50%);z-index:1;}
