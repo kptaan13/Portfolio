@@ -325,6 +325,20 @@ nav.s{background:rgba(7,7,12,.88);backdrop-filter:blur(20px);border-bottom-color
 .ml-sl{font-size:.4rem;color:#1a1a2e;font-weight:500;}
 .ml-arr{font-size:.5rem;color:rgba(214,40,40,.4);}
 .ml-badge{position:absolute;bottom:.55rem;left:50%;transform:translateX(-50%);font-size:.4rem;font-weight:600;color:#fff;background:#d62828;padding:.2rem .7rem;border-radius:20px;white-space:nowrap;z-index:6;letter-spacing:.04em;}
+/* Sketchbook — creative illustration portfolio */
+.cv-sketchbook{background:#fdf8f0;position:relative;}
+.skb-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 60%,rgba(200,169,110,.18),transparent 55%),radial-gradient(ellipse at 80% 20%,rgba(26,18,9,.04),transparent 40%);z-index:1;}
+.skb-header{position:absolute;top:0;left:0;right:0;padding:.5rem 1rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(26,18,9,.1);z-index:7;}
+.skb-label{font-size:.5rem;font-weight:700;letter-spacing:.18em;color:#1a1209;font-family:'DM Mono',monospace;}
+.skb-yr{font-size:.45rem;color:rgba(26,18,9,.4);font-family:'DM Mono',monospace;}
+.skb-char{position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:0;}
+.skb-head{width:28px;height:28px;border-radius:50%;background:linear-gradient(160deg,#c8a96e,#8b6a3a);box-shadow:0 2px 8px rgba(26,18,9,.18);}
+.skb-body{width:20px;height:36px;background:linear-gradient(180deg,#8b6a3a,#5c4425);border-radius:10px 10px 6px 6px;margin-top:-4px;}
+.skb-shadow{width:32px;height:6px;background:rgba(26,18,9,.12);border-radius:50%;margin-top:2px;filter:blur(2px);}
+.skb-title{position:absolute;bottom:2.4rem;left:1rem;font-family:'Cormorant',serif;font-size:.85rem;font-weight:600;line-height:1.1;color:#1a1209;z-index:6;}
+.skb-title em{color:#c8a96e;font-style:italic;}
+.skb-chips{position:absolute;bottom:.6rem;left:1rem;display:flex;gap:.3rem;z-index:6;}
+.skb-c{font-size:.38rem;font-weight:600;padding:.18rem .42rem;border-radius:3px;background:rgba(26,18,9,.07);color:#1a1209;border:1px solid rgba(26,18,9,.12);letter-spacing:.06em;}
 /* DevCard — link-in-bio for devs */
 .cv-devcard{background:#08040f;}
 .dc-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(139,92,246,.12),transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(59,130,246,.08),transparent 50%);z-index:1;}
