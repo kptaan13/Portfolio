@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1200px; height: 630px; overflow: hidden; background: #07070c; font-family: 'Outfit', sans-serif; }
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap');
+
+  .wrap {
+    width: 1200px; height: 630px;
+    background: #07070c;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 90px;
+    overflow: hidden;
+  }
+
+  .bg-dots {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(240,200,74,.06) 1px, transparent 1px);
+    background-size: 36px 36px;
+  }
+
+  .glow-1 {
+    position: absolute; top: -120px; left: -80px;
+    width: 600px; height: 600px;
+    background: radial-gradient(ellipse, rgba(240,200,74,.07), transparent 65%);
+    pointer-events: none;
+  }
+  .glow-2 {
+    position: absolute; bottom: -150px; right: 100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(ellipse, rgba(88,166,255,.05), transparent 65%);
+    pointer-events: none;
+  }
+
+  .bg-word {
+    position: absolute;
+    right: -20px;
+    bottom: -80px;
+    font-family: 'Cormorant', serif;
+    font-size: 300px;
+    font-weight: 600;
+    -webkit-text-stroke: 1px rgba(240,236,226,.03);
+    color: transparent;
+    line-height: 1;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .content {
+    position: relative; z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 700px;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: rgba(240,236,226,.4);
+    margin-bottom: 24px;
+  }
+  .tag::before {
+    content: '';
+    display: block;
+    width: 28px; height: 1px;
+    background: rgba(240,200,74,.5);
+  }
+
+  .title {
+    font-family: 'Cormorant', serif;
+    font-size: 82px;
+    font-weight: 300;
+    color: #f0ece2;
+    line-height: .95;
+    letter-spacing: -.01em;
+    margin-bottom: 28px;
+  }
+  .title em {
+    color: #f0c84a;
+    font-style: italic;
+  }
+
+  .desc {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(240,236,226,.5);
+    line-height: 1.5;
+    letter-spacing: .02em;
+    margin-bottom: 36px;
+    max-width: 560px;
+  }
+
+  .tags-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid;
+  }
+  .pill-gold { color: #f0c84a; border-color: rgba(240,200,74,.3); background: rgba(240,200,74,.06); }
+  .pill-blue { color: #58a6ff; border-color: rgba(88,166,255,.3); background: rgba(88,166,255,.06); }
+  .pill-green { color: #3fb950; border-color: rgba(63,185,80,.3); background: rgba(63,185,80,.06); }
+
+  .author-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 40px;
+  }
+  .avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f0c84a 0%, #e8a020 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #07070c;
+    flex-shrink: 0;
+  }
+  .author-name {
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #f0ece2;
+  }
+  .author-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .08em;
+    color: rgba(240,236,226,.35);
+    margin-top: 2px;
+  }
+
+  .divider-v {
+    width: 1px;
+    height: 340px;
+    background: linear-gradient(to bottom, transparent, rgba(240,236,226,.08) 30%, rgba(240,236,226,.08) 70%, transparent);
+    position: absolute;
+    left: 58%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+
+  /* Right side post previews */
+  .right {
+    position: absolute;
+    right: 90px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 310px;
+  }
+
+  .post-pill {
+    background: #0d0d16;
+    border: 1px solid rgba(240,236,226,.07);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .pp-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+  .pp-dot.gold { background: #f0c84a; }
+  .pp-dot.blue { background: #58a6ff; }
+  .pp-dot.green { background: #3fb950; }
+  .pp-dot.purple { background: #a78bfa; }
+  .pp-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #f0ece2;
+    line-height: 1.35;
+  }
+  .pp-cat {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .07em;
+    color: rgba(240,236,226,.3);
+    margin-top: 3px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bg-dots"></div>
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+  <div class="bg-word">Blog</div>
+  <div class="divider-v"></div>
+
+  <div class="content">
+    <div class="tag">rohankakkar.com · Blog</div>
+    <div class="title">
+      Dev<br>
+      <em>Writing</em>
+    </div>
+    <div class="desc">Deep-dives on building products, open source, frontend performance, and shipping as a solo developer.</div>
+    <div class="tags-row">
+      <span class="pill pill-gold">Open Source</span>
+      <span class="pill pill-blue">Frontend</span>
+      <span class="pill pill-green">Career</span>
+    </div>
+    <div class="author-row">
+      <div class="avatar">RK</div>
+      <div>
+        <div class="author-name">Rohan Kakkar</div>
+        <div class="author-sub">Full-Stack Developer · Canada</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="post-pill">
+      <div class="pp-dot green"></div>
+      <div>
+        <div class="pp-title">Building stalejs: A Tiny Library That Keeps Your DOM Fresh</div>
+        <div class="pp-cat">Open Source · 5 min</div>
+      </div>
+    </div>
+    <div class="post-pill">
+      <div class="pp-dot gold"></div>
+      <div>
+        <div class="pp-title">How I Shipped 11 Live Projects as a Solo Developer</div>
+        <div class="pp-cat">Career · 7 min</div>
+      </div>
+    </div>
+    <div class="post-pill">
+      <div class="pp-dot blue"></div>
+      <div>
+        <div class="pp-title">CSS Animations That Don't Kill Performance</div>
+        <div class="pp-cat">Frontend · 5 min</div>
+      </div>
+    </div>
+    <div class="post-pill">
+      <div class="pp-dot purple"></div>
+      <div>
+        <div class="pp-title">What I Learned Publishing My First NPM Package</div>
+        <div class="pp-cat">Open Source · 4 min</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
