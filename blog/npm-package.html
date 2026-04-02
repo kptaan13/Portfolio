@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What I Learned Publishing My First NPM Package — Rohan Kakkar</title>
+<meta name="description" content="Bundling, tree-shaking, TypeScript types, semantic versioning — everything nobody tells you before you publish your first NPM package.">
+<meta name="author" content="Rohan Kakkar">
+<link rel="canonical" href="https://rohankakkar.com/blog/npm-package.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What I Learned Publishing My First NPM Package">
+<meta property="og:description" content="Bundling, tree-shaking, TypeScript types, semantic versioning — everything nobody tells you upfront.">
+<meta property="og:site_name" content="Rohan Kakkar">
+<meta property="og:image" content="https://rohankakkar.com/og-blog.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What I Learned Publishing My First NPM Package">
+<meta name="twitter:description" content="Bundling, tree-shaking, TypeScript types, semantic versioning — everything nobody tells you upfront.">
+<meta name="twitter:image" content="https://rohankakkar.com/og-blog.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "What I Learned Publishing My First NPM Package",
+  "url": "https://rohankakkar.com/blog/npm-package.html",
+  "datePublished": "2026-03-15",
+  "description": "Bundling, tree-shaking, TypeScript types, semantic versioning — everything nobody tells you before you publish your first NPM package.",
+  "image": "https://rohankakkar.com/og-blog.png",
+  "author": { "@type": "Person", "name": "Rohan Kakkar", "url": "https://rohankakkar.com" },
+  "publisher": { "@type": "Person", "name": "Rohan Kakkar", "url": "https://rohankakkar.com" },
+  "keywords": ["NPM", "Open Source", "JavaScript", "Bundling", "Rollup", "TypeScript", "stalejs"]
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../blog.css">
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+<canvas id="stars"></canvas>
+
+<nav id="nav">
+  <a href="../index.html" class="nav-logo">R<em>.</em>Kakkar</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#projects">Work</a></li>
+    <li><a href="../index.html#experience">Journey</a></li>
+    <li><a href="../blog.html" class="blog-nav-active">Blog</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:rohan61034kakkar@gmail.com" class="nav-btn">
+    <div class="nav-dot"></div>Available
+  </a>
+</nav>
+<div class="ham" id="ham" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+<div class="mob-menu" id="mobMenu">
+  <a href="../index.html#about" onclick="toggleMenu()">About</a>
+  <a href="../index.html#skills" onclick="toggleMenu()">Skills</a>
+  <a href="../index.html#projects" onclick="toggleMenu()">Work</a>
+  <a href="../index.html#experience" onclick="toggleMenu()">Journey</a>
+  <a href="../blog.html" onclick="toggleMenu()">Blog</a>
+  <a href="../index.html#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<div class="post-wrap">
+  <main class="post-main">
+
+    <div class="post-cat-row">
+      <span class="bcat bcat-oss">Open Source</span>
+      <span class="bmeta-sep">·</span>
+      <span class="bread-time">4 min read</span>
+      <span class="bmeta-sep">·</span>
+      <span class="bdate">March 2026</span>
+    </div>
+
+    <h1 class="post-title">What I Learned Publishing My First NPM Package</h1>
+
+    <div class="post-byline">
+      <div class="post-avatar">RK</div>
+      <div>
+        <div class="post-author-name">Rohan Kakkar</div>
+        <div class="post-author-sub">Full-Stack Developer · rohankakkar.com</div>
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      <p>Publishing <a href="https://github.com/kptaan13/stalejs" target="_blank">stalejs</a> to NPM was more involved than I expected. Writing the library took a weekend. Getting the package.json, build config, and release process right took another two days. Here's everything I wish I'd known upfront.</p>
+
+      <h2 id="bundling">Bundling: ESM and CJS Both Matter</h2>
+
+      <p>The JavaScript ecosystem is split. Some environments use CommonJS (<code>require()</code>), others use ES Modules (<code>import</code>). If you only ship one, you'll break someone's setup.</p>
+
+      <p>I use <a href="https://rollupjs.org" target="_blank">Rollup</a> to generate both from the same source:</p>
+
+      <pre><code>// rollup.config.js
+export default [
+  {
+    input: 'src/index.js',
+    output: { file: 'dist/index.cjs.js', format: 'cjs', exports: 'named' }
+  },
+  {
+    input: 'src/index.js',
+    output: { file: 'dist/index.esm.js', format: 'esm' }
+  }
+]</code></pre>
+
+      <p>Then in <code>package.json</code>, point to both:</p>
+
+      <pre><code>{
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs.js"
+    }
+  }
+}</code></pre>
+
+      <p>The <code>exports</code> field is the modern way — bundlers like webpack and Vite use it preferentially. The <code>main</code> and <code>module</code> fields are fallbacks for older tooling.</p>
+
+      <h2 id="typescript-types">TypeScript Types Without Writing TypeScript</h2>
+
+      <p>stalejs is written in plain JavaScript, but TypeScript users expect types. You can ship a <code>.d.ts</code> file manually without migrating your whole codebase to TypeScript:</p>
+
+      <pre><code>// dist/index.d.ts
+export interface StaleOptions {
+  ttl: string | number
+  refetch: () => Promise&lt;any&gt;
+  update: (el: Element, data: any) => void
+  pauseWhenHidden?: boolean
+  pauseWhenOffscreen?: boolean
+}
+
+export function stale(
+  selector: string | Element,
+  options: StaleOptions
+): { destroy: () => void }</code></pre>
+
+      <p>Then add to <code>package.json</code>:</p>
+
+      <pre><code>"types": "dist/index.d.ts"</code></pre>
+
+      <p>TypeScript consumers now get full autocomplete and type checking. No TypeScript compiler needed in your project.</p>
+
+      <h2 id="sideeffects">The sideEffects Field</h2>
+
+      <p>This one is easy to miss but important. Add this to <code>package.json</code>:</p>
+
+      <pre><code>"sideEffects": false</code></pre>
+
+      <p>This tells bundlers like webpack that your module has no side effects — meaning if a consumer imports your package but doesn't use a particular export, the bundler can safely drop it (tree-shake). Without this flag, webpack will include everything even if only one function is used.</p>
+
+      <p>Only set this if your package genuinely has no side effects (no global mutations, no CSS imports, no polyfills that run on import). stalejs qualifies — it only does things when you call <code>stale()</code>.</p>
+
+      <h2 id="semver">Semantic Versioning From Day One</h2>
+
+      <p>I know it feels over-engineered for a small library. Do it anyway.</p>
+
+      <p>The convention: <code>MAJOR.MINOR.PATCH</code></p>
+
+      <ul>
+        <li><strong>PATCH</strong> (1.0.<strong>1</strong>) — bug fix, no API change</li>
+        <li><strong>MINOR</strong> (1.<strong>1</strong>.0) — new feature, backwards compatible</li>
+        <li><strong>MAJOR</strong> (<strong>2</strong>.0.0) — breaking change</li>
+      </ul>
+
+      <p>Start at <code>0.1.0</code> if it's not stable yet. The leading zero signals that the API may change. Once you're confident in the API, bump to <code>1.0.0</code>.</p>
+
+      <p>I use <code>npm version patch|minor|major</code> — it bumps the version in <code>package.json</code>, creates a git commit, and tags it automatically.</p>
+
+      <h2 id="readme">The README Is the Product</h2>
+
+      <p>Nobody reads source code before deciding whether to install a package. They read the README. The README needs to answer five questions in under 30 seconds:</p>
+
+      <ol>
+        <li>What does this do?</li>
+        <li>How do I install it?</li>
+        <li>What does the simplest usage look like?</li>
+        <li>What are all the options?</li>
+        <li>What's the licence?</li>
+      </ol>
+
+      <p>Start with the install command and a working code example. Everything else comes after.</p>
+
+      <h2 id="publishing">The Publish Command</h2>
+
+      <p>Once your build is ready:</p>
+
+      <pre><code>npm run build       # generate dist/
+npm version patch   # bump version + tag
+npm publish         # ship it</code></pre>
+
+      <p>Add a <code>files</code> field to <code>package.json</code> to control what gets published — you don't want to ship your <code>src/</code>, tests, or config files:</p>
+
+      <pre><code>"files": ["dist", "README.md"]</code></pre>
+
+      <blockquote>stalejs is on NPM at <a href="https://www.npmjs.com/package/stalejs" target="_blank">npmjs.com/package/stalejs</a> and GitHub at <a href="https://github.com/kptaan13/stalejs" target="_blank">github.com/kptaan13/stalejs</a>. Stars welcome.</blockquote>
+
+    </div>
+
+    <div class="post-share">
+      <span class="post-share-lbl">Share</span>
+      <a class="share-btn" href="https://twitter.com/intent/tweet?text=What+I+Learned+Publishing+My+First+NPM+Package&url=https://rohankakkar.com/blog/npm-package.html" target="_blank">Twitter / X</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://rohankakkar.com/blog/npm-package.html" target="_blank">LinkedIn</a>
+      <button class="share-btn" onclick="navigator.clipboard.writeText(location.href);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy Link',2000)">Copy Link</button>
+    </div>
+
+  </main>
+
+  <aside class="post-toc">
+    <div class="toc-title">On This Page</div>
+    <ul class="toc-list">
+      <li><a href="#bundling">ESM &amp; CJS Bundling</a></li>
+      <li><a href="#typescript-types">TypeScript Types</a></li>
+      <li><a href="#sideeffects">sideEffects Field</a></li>
+      <li><a href="#semver">Semantic Versioning</a></li>
+      <li><a href="#readme">The README</a></li>
+      <li><a href="#publishing">Publishing</a></li>
+    </ul>
+  </aside>
+</div>
+
+<section class="post-related">
+  <h2 class="post-related-h">More <em>Writing</em></h2>
+  <div class="blog-grid" style="padding:0;">
+    <article class="blog-card" data-cat="open-source">
+      <a href="stalejs.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-oss">
+          <span class="bc-oss-size">1.3kb</span>
+          <span class="bc-oss-label">zero deps</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-oss">Open Source</span><span class="bread-time">5 min read</span></div>
+        <h3 class="bc-title"><a href="stalejs.html">Building stalejs</a></h3>
+        <p class="bc-excerpt">A 1.3kb library that keeps any DOM element automatically up to date.</p>
+        <div class="bc-footer"><span class="bdate">Mar 2026</span><a href="stalejs.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+    <article class="blog-card" data-cat="frontend">
+      <a href="css-animations.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-anim">
+          <div class="bc-anim-ring"></div>
+          <div class="bc-anim-ring bc-anim-ring2"></div>
+          <span class="bc-anim-label">60fps</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-frontend">Frontend</span><span class="bread-time">5 min read</span></div>
+        <h3 class="bc-title"><a href="css-animations.html">CSS Animations That Don't Kill Performance</a></h3>
+        <p class="bc-excerpt">GPU-composited animations that run smooth on any device.</p>
+        <div class="bc-footer"><span class="bdate">Nov 2025</span><a href="css-animations.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+    <article class="blog-card" data-cat="career">
+      <a href="11-projects.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-career">
+          <span class="bc-img-num">11</span>
+          <span class="bc-img-sub">Live Projects</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-career">Career</span><span class="bread-time">7 min read</span></div>
+        <h3 class="bc-title"><a href="11-projects.html">How I Shipped 11 Live Projects</a></h3>
+        <p class="bc-excerpt">A breakdown of every project, what I learned, and what I'd do differently.</p>
+        <div class="bc-footer"><span class="bdate">Feb 2026</span><a href="11-projects.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-grid">
+    <div>
+      <span class="ft-brand">Rohan Kakkar</span>
+      <p class="ft-bio">Creative Developer crafting immersive digital experiences at the intersection of design and engineering. Available for freelance worldwide.</p>
+    </div>
+    <div class="ft-col"><h4>Work</h4><ul>
+      <li><a href="https://www.mapleins.com" target="_blank">Mapleins</a></li>
+      <li><a href="https://dev-pulse-rose.vercel.app/" target="_blank">Dev Pulse</a></li>
+      <li><a href="https://github.com/kptaan13/stalejs" target="_blank">stalejs</a></li>
+      <li><a href="https://kptaan13-aurora-agency.netlify.app/" target="_blank">Aurora Agency</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Blog</h4><ul>
+      <li><a href="stalejs.html">Building stalejs</a></li>
+      <li><a href="11-projects.html">11 Live Projects</a></li>
+      <li><a href="mapleins-stack.html">Mapleins Stack</a></li>
+      <li><a href="../blog.html">All Posts →</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Connect</h4><ul>
+      <li><a href="https://github.com/kptaan13" target="_blank">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/thekrohankakkar/" target="_blank">LinkedIn</a></li>
+      <li><a href="mailto:rohan61034kakkar@gmail.com">Email Me</a></li>
+    </ul></div>
+  </div>
+  <div class="ft-bottom">
+    <span class="ft-copy">© 2026 Rohan Kakkar · Designed &amp; Built from scratch</span>
+    <span class="ft-copy">rohan61034kakkar@gmail.com</span>
+  </div>
+</footer>
+
+<script src="../script.js" defer></script>
+<script>
+function toggleMenu(){
+  document.getElementById('ham').classList.toggle('open');
+  document.getElementById('mobMenu').classList.toggle('open');
+}
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+  document.querySelectorAll('.post-body h2,.post-body h3').forEach(h => {
+    const a = document.querySelector('.toc-list a[href="#' + h.id + '"]');
+    if (!a) return;
+    const rect = h.getBoundingClientRect();
+    a.classList.toggle('toc-active', rect.top < 120 && rect.top > -200);
+  });
+});
+</script>
+</body>
+</html>

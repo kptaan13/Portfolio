@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building My Portfolio From Scratch — Rohan Kakkar</title>
+<meta name="description" content="Pure HTML, CSS and JS. How I designed and coded a portfolio with no frameworks, no templates, and no build step.">
+<meta name="author" content="Rohan Kakkar">
+<link rel="canonical" href="https://rohankakkar.com/blog/portfolio-build.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Building My Portfolio From Scratch — No Frameworks, No Templates">
+<meta property="og:description" content="Pure HTML, CSS and JS. How I designed and coded a portfolio that actually represents my work.">
+<meta property="og:site_name" content="Rohan Kakkar">
+<meta property="og:image" content="https://rohankakkar.com/og-blog.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Building My Portfolio From Scratch — No Frameworks, No Templates">
+<meta name="twitter:description" content="Pure HTML, CSS and JS. How I designed and coded a portfolio that actually represents my work.">
+<meta name="twitter:image" content="https://rohankakkar.com/og-blog.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Building My Portfolio From Scratch — No Frameworks, No Templates",
+  "url": "https://rohankakkar.com/blog/portfolio-build.html",
+  "datePublished": "2025-12-10",
+  "description": "Pure HTML, CSS and JS. How I designed and coded a portfolio that actually represents my work.",
+  "image": "https://rohankakkar.com/og-blog.png",
+  "author": { "@type": "Person", "name": "Rohan Kakkar", "url": "https://rohankakkar.com" },
+  "publisher": { "@type": "Person", "name": "Rohan Kakkar", "url": "https://rohankakkar.com" },
+  "keywords": ["Portfolio", "HTML", "CSS", "JavaScript", "Web Design", "No Framework"]
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../blog.css">
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+<canvas id="stars"></canvas>
+
+<nav id="nav">
+  <a href="../index.html" class="nav-logo">R<em>.</em>Kakkar</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#projects">Work</a></li>
+    <li><a href="../index.html#experience">Journey</a></li>
+    <li><a href="../blog.html" class="blog-nav-active">Blog</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:rohan61034kakkar@gmail.com" class="nav-btn">
+    <div class="nav-dot"></div>Available
+  </a>
+</nav>
+<div class="ham" id="ham" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+<div class="mob-menu" id="mobMenu">
+  <a href="../index.html#about" onclick="toggleMenu()">About</a>
+  <a href="../index.html#skills" onclick="toggleMenu()">Skills</a>
+  <a href="../index.html#projects" onclick="toggleMenu()">Work</a>
+  <a href="../index.html#experience" onclick="toggleMenu()">Journey</a>
+  <a href="../blog.html" onclick="toggleMenu()">Blog</a>
+  <a href="../index.html#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<div class="post-wrap">
+  <main class="post-main">
+
+    <div class="post-cat-row">
+      <span class="bcat bcat-tools">Dev Tools</span>
+      <span class="bmeta-sep">·</span>
+      <span class="bread-time">6 min read</span>
+      <span class="bmeta-sep">·</span>
+      <span class="bdate">December 2025</span>
+    </div>
+
+    <h1 class="post-title">Building My Portfolio From Scratch — No Frameworks, No Templates</h1>
+
+    <div class="post-byline">
+      <div class="post-avatar">RK</div>
+      <div>
+        <div class="post-author-name">Rohan Kakkar</div>
+        <div class="post-author-sub">Full-Stack Developer · rohankakkar.com</div>
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      <p>Most developer portfolios look the same. Dark background, hero section, a few cards, contact form. You can feel the template underneath. I wanted mine to feel like it was built by someone who actually cares about the craft — so I started from a blank HTML file and didn't reach for a framework.</p>
+
+      <h2 id="why-no-framework">Why No Framework</h2>
+
+      <p>The honest reason: a portfolio is a static document. It doesn't have complex state, it doesn't need server components, it doesn't need hot module replacement. What it needs is to load fast, look good, and communicate clearly. A single HTML file, a stylesheet, and a small script file do all of that without a 200MB <code>node_modules</code> folder.</p>
+
+      <p>There's also something valuable about doing it the hard way. When you have no abstractions to lean on, you actually learn the platform. After building this, I understand CSS layout, the cascade, and browser rendering in a way I didn't before.</p>
+
+      <h2 id="design-system">Building a Design System in CSS Variables</h2>
+
+      <p>Before writing a single component, I defined the entire visual language as CSS custom properties:</p>
+
+      <pre><code>:root {
+  --bg:     #07070c;
+  --surface: #0d0d16;
+  --gold:   #f0c84a;
+  --text:   #f0ece2;
+  --muted:  rgba(240, 236, 226, 0.45);
+  --border: rgba(240, 236, 226, 0.07);
+
+  --font-serif: 'Cormorant', Georgia, serif;
+  --font-sans:  'Outfit', system-ui, sans-serif;
+  --font-mono:  'DM Mono', monospace;
+}</code></pre>
+
+      <p>Everything in the stylesheet references these variables. If I want to change the gold accent, I change one line. The entire site updates. This is the CSS equivalent of a design token system — without needing Figma Tokens or Style Dictionary.</p>
+
+      <h2 id="the-star-canvas">The Star Canvas Background</h2>
+
+      <p>The animated star field in the background is a plain <code>&lt;canvas&gt;</code> element driven by about 60 lines of vanilla JS. No library. The key is using <code>requestAnimationFrame</code> instead of <code>setInterval</code> — it syncs to the display refresh rate and pauses automatically when the tab is hidden.</p>
+
+      <pre><code>function drawStars() {
+  ctx.clearRect(0, 0, W, H)
+  stars.forEach(s => {
+    s.y += s.speed
+    if (s.y > H) { s.y = 0; s.x = Math.random() * W }
+    ctx.beginPath()
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2)
+    ctx.fillStyle = `rgba(240,236,226,${s.opacity})`
+    ctx.fill()
+  })
+  requestAnimationFrame(drawStars)
+}
+requestAnimationFrame(drawStars)</code></pre>
+
+      <h2 id="the-project-cards">Project Card Visuals</h2>
+
+      <p>Each project card has a custom visual in the thumbnail — not a screenshot (screenshots go stale and look inconsistent) but a purpose-built CSS illustration that captures the project's colour palette and vibe. Mapleins gets a red and white Canadian-flavoured card. Solstice Watches gets a gold luxury treatment. stalejs gets a dark terminal-style code block.</p>
+
+      <p>This forced me to actually think about each project's identity rather than just dumping a screenshot in. It's more work, but the result is a grid that feels intentional.</p>
+
+      <h2 id="performance">Performance</h2>
+
+      <p>Because there's no framework, there's no JavaScript bundle to ship. The only JS file is a small <code>script.js</code> that handles the cursor, nav scroll state, and star canvas. It's loaded with <code>defer</code> so it never blocks rendering.</p>
+
+      <p>Fonts are the only external dependency. I use the Google Fonts CSS API which serves a single preconnect-optimised CSS file. Combined with <code>font-display: swap</code>, text renders immediately in the fallback font and swaps in when the web fonts arrive — no layout shift.</p>
+
+      <h2 id="deployment">Deployment</h2>
+
+      <p>The entire site is deployed on Vercel from a GitHub repo. Push to main, it's live in 30 seconds. No build step. No CI configuration. Because it's static files, the deployment is just a file copy to a CDN — it can't fail.</p>
+
+      <p>I own the domain <code>rohankakkar.com</code> and pointed it to Vercel's nameservers. SSL is automatic. The whole infrastructure setup took about 10 minutes.</p>
+
+      <h2 id="what-i-learned">What I Learned</h2>
+
+      <ul>
+        <li><strong>Constraints force creativity.</strong> No framework meant I had to really understand what I was building. The code is more intentional as a result.</li>
+        <li><strong>CSS is more powerful than people give it credit for.</strong> Custom properties, grid, clip-path, and modern selectors cover 95% of what you'd reach for a library for.</li>
+        <li><strong>The website is never finished.</strong> I've shipped probably 15 iterations. Small improvements compound. The best time to push a tweak is right now.</li>
+      </ul>
+
+      <blockquote>The site is open source — you can see every line at <a href="https://github.com/kptaan13/Portfolio" target="_blank">github.com/kptaan13/Portfolio</a>.</blockquote>
+
+    </div>
+
+    <div class="post-share">
+      <span class="post-share-lbl">Share</span>
+      <a class="share-btn" href="https://twitter.com/intent/tweet?text=Building+a+portfolio+from+scratch+—+no+frameworks&url=https://rohankakkar.com/blog/portfolio-build.html" target="_blank">Twitter / X</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://rohankakkar.com/blog/portfolio-build.html" target="_blank">LinkedIn</a>
+      <button class="share-btn" onclick="navigator.clipboard.writeText(location.href);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy Link',2000)">Copy Link</button>
+    </div>
+
+  </main>
+
+  <aside class="post-toc">
+    <div class="toc-title">On This Page</div>
+    <ul class="toc-list">
+      <li><a href="#why-no-framework">Why No Framework</a></li>
+      <li><a href="#design-system">CSS Design System</a></li>
+      <li><a href="#the-star-canvas">Star Canvas</a></li>
+      <li><a href="#the-project-cards">Project Cards</a></li>
+      <li><a href="#performance">Performance</a></li>
+      <li><a href="#deployment">Deployment</a></li>
+      <li><a href="#what-i-learned">What I Learned</a></li>
+    </ul>
+  </aside>
+</div>
+
+<section class="post-related">
+  <h2 class="post-related-h">More <em>Writing</em></h2>
+  <div class="blog-grid" style="padding:0;">
+    <article class="blog-card" data-cat="career">
+      <a href="11-projects.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-career">
+          <span class="bc-img-num">11</span>
+          <span class="bc-img-sub">Live Projects</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-career">Career</span><span class="bread-time">7 min read</span></div>
+        <h3 class="bc-title"><a href="11-projects.html">How I Shipped 11 Live Projects</a></h3>
+        <p class="bc-excerpt">A breakdown of every project, what I learned, and what I'd do differently.</p>
+        <div class="bc-footer"><span class="bdate">Feb 2026</span><a href="11-projects.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+    <article class="blog-card" data-cat="frontend">
+      <a href="css-animations.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-anim">
+          <div class="bc-anim-ring"></div>
+          <div class="bc-anim-ring bc-anim-ring2"></div>
+          <span class="bc-anim-label">60fps</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-frontend">Frontend</span><span class="bread-time">5 min read</span></div>
+        <h3 class="bc-title"><a href="css-animations.html">CSS Animations That Don't Kill Performance</a></h3>
+        <p class="bc-excerpt">GPU-composited animations that run smooth on any device.</p>
+        <div class="bc-footer"><span class="bdate">Nov 2025</span><a href="css-animations.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+    <article class="blog-card" data-cat="career">
+      <a href="freelance.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-career2">
+          <span class="bc-avail">Available<br>Worldwide</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-career">Career</span><span class="bread-time">6 min read</span></div>
+        <h3 class="bc-title"><a href="freelance.html">Getting Your First Freelance Client</a></h3>
+        <p class="bc-excerpt">Cold outreach, portfolio positioning, and pricing — what actually worked.</p>
+        <div class="bc-footer"><span class="bdate">Oct 2025</span><a href="freelance.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-grid">
+    <div>
+      <span class="ft-brand">Rohan Kakkar</span>
+      <p class="ft-bio">Creative Developer crafting immersive digital experiences at the intersection of design and engineering. Available for freelance worldwide.</p>
+    </div>
+    <div class="ft-col"><h4>Work</h4><ul>
+      <li><a href="https://www.mapleins.com" target="_blank">Mapleins</a></li>
+      <li><a href="https://dev-pulse-rose.vercel.app/" target="_blank">Dev Pulse</a></li>
+      <li><a href="https://github.com/kptaan13/stalejs" target="_blank">stalejs</a></li>
+      <li><a href="https://kptaan13-aurora-agency.netlify.app/" target="_blank">Aurora Agency</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Blog</h4><ul>
+      <li><a href="stalejs.html">Building stalejs</a></li>
+      <li><a href="11-projects.html">11 Live Projects</a></li>
+      <li><a href="mapleins-stack.html">Mapleins Stack</a></li>
+      <li><a href="../blog.html">All Posts →</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Connect</h4><ul>
+      <li><a href="https://github.com/kptaan13" target="_blank">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/thekrohankakkar/" target="_blank">LinkedIn</a></li>
+      <li><a href="mailto:rohan61034kakkar@gmail.com">Email Me</a></li>
+    </ul></div>
+  </div>
+  <div class="ft-bottom">
+    <span class="ft-copy">© 2026 Rohan Kakkar · Designed &amp; Built from scratch</span>
+    <span class="ft-copy">rohan61034kakkar@gmail.com</span>
+  </div>
+</footer>
+
+<script src="../script.js" defer></script>
+<script>
+function toggleMenu(){
+  document.getElementById('ham').classList.toggle('open');
+  document.getElementById('mobMenu').classList.toggle('open');
+}
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+  document.querySelectorAll('.post-body h2,.post-body h3').forEach(h => {
+    const a = document.querySelector('.toc-list a[href="#' + h.id + '"]');
+    if (!a) return;
+    const rect = h.getBoundingClientRect();
+    a.classList.toggle('toc-active', rect.top < 120 && rect.top > -200);
+  });
+});
+</script>
+</body>
+</html>

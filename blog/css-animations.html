@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Animations That Don't Kill Performance — Rohan Kakkar</title>
+<meta name="description" content="transform and opacity only. A practical guide to GPU-composited CSS animations that run smooth at 60fps on any device.">
+<meta name="author" content="Rohan Kakkar">
+<link rel="canonical" href="https://rohankakkar.com/blog/css-animations.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS Animations That Don't Kill Performance">
+<meta property="og:description" content="transform and opacity only. A practical guide to GPU-composited animations that run smooth on any device.">
+<meta property="og:site_name" content="Rohan Kakkar">
+<meta property="og:image" content="https://rohankakkar.com/og-blog.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CSS Animations That Don't Kill Performance">
+<meta name="twitter:description" content="transform and opacity only. A practical guide to GPU-composited animations that run smooth on any device.">
+<meta name="twitter:image" content="https://rohankakkar.com/og-blog.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "CSS Animations That Don't Kill Performance",
+  "url": "https://rohankakkar.com/blog/css-animations.html",
+  "datePublished": "2025-11-20",
+  "description": "transform and opacity only. A practical guide to GPU-composited CSS animations that run smooth at 60fps on any device.",
+  "image": "https://rohankakkar.com/og-blog.png",
+  "author": { "@type": "Person", "name": "Rohan Kakkar", "url": "https://rohankakkar.com" },
+  "publisher": { "@type": "Person", "name": "Rohan Kakkar", "url": "https://rohankakkar.com" },
+  "keywords": ["CSS", "Animations", "Performance", "Frontend", "60fps", "GPU", "Web Vitals"]
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../blog.css">
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+<canvas id="stars"></canvas>
+
+<nav id="nav">
+  <a href="../index.html" class="nav-logo">R<em>.</em>Kakkar</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#projects">Work</a></li>
+    <li><a href="../index.html#experience">Journey</a></li>
+    <li><a href="../blog.html" class="blog-nav-active">Blog</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:rohan61034kakkar@gmail.com" class="nav-btn">
+    <div class="nav-dot"></div>Available
+  </a>
+</nav>
+<div class="ham" id="ham" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+<div class="mob-menu" id="mobMenu">
+  <a href="../index.html#about" onclick="toggleMenu()">About</a>
+  <a href="../index.html#skills" onclick="toggleMenu()">Skills</a>
+  <a href="../index.html#projects" onclick="toggleMenu()">Work</a>
+  <a href="../index.html#experience" onclick="toggleMenu()">Journey</a>
+  <a href="../blog.html" onclick="toggleMenu()">Blog</a>
+  <a href="../index.html#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<div class="post-wrap">
+  <main class="post-main">
+
+    <div class="post-cat-row">
+      <span class="bcat bcat-frontend">Frontend</span>
+      <span class="bmeta-sep">·</span>
+      <span class="bread-time">5 min read</span>
+      <span class="bmeta-sep">·</span>
+      <span class="bdate">November 2025</span>
+    </div>
+
+    <h1 class="post-title">CSS Animations That Don't Kill Performance</h1>
+
+    <div class="post-byline">
+      <div class="post-avatar">RK</div>
+      <div>
+        <div class="post-author-name">Rohan Kakkar</div>
+        <div class="post-author-sub">Full-Stack Developer · rohankakkar.com</div>
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      <p>Animations make interfaces feel alive. But done wrong, they make your page feel sluggish and drain mobile batteries. I've shipped a lot of animated UIs — from the star field on this portfolio to full-page transitions on client sites — and I've learned the hard way what to do and what to avoid.</p>
+
+      <p>The rule is simple: <strong>animate only <code>transform</code> and <code>opacity</code></strong>. Everything else is expensive.</p>
+
+      <h2 id="how-the-browser-renders">How The Browser Renders</h2>
+
+      <p>To understand why, you need to understand the browser's rendering pipeline. When you change a CSS property, one of three things happens:</p>
+
+      <ol>
+        <li><strong>Layout (reflow)</strong> — the browser recalculates how much space elements take up. Changing <code>width</code>, <code>height</code>, <code>padding</code>, <code>margin</code>, <code>top</code>, <code>left</code> triggers this. It's expensive and blocks the main thread.</li>
+        <li><strong>Paint (repaint)</strong> — the browser redraws pixels. Changing <code>background-color</code>, <code>border-color</code>, <code>box-shadow</code> triggers this. Cheaper than layout, but still main thread.</li>
+        <li><strong>Composite only</strong> — the GPU handles it without touching the main thread. Only <code>transform</code> and <code>opacity</code> qualify. This is where 60fps lives.</li>
+      </ol>
+
+      <p>When you animate a property that triggers layout or paint, the browser has to redo that work every frame (60 times per second). The main thread gets blocked and your animation stutters.</p>
+
+      <h2 id="the-golden-rules">The Golden Rules</h2>
+
+      <h3 id="use-transform-not-position">Use transform, not top/left</h3>
+
+      <p>The bad way to move something:</p>
+
+      <pre><code>/* BAD — triggers layout every frame */
+.card:hover {
+  top: -4px;
+  left: 0;
+}</code></pre>
+
+      <p>The right way:</p>
+
+      <pre><code>/* GOOD — composited, no layout */
+.card {
+  transition: transform 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+}</code></pre>
+
+      <p>Same visual result. Completely different performance profile.</p>
+
+      <h3 id="will-change">Use will-change Sparingly</h3>
+
+      <p><code>will-change: transform</code> hints to the browser that an element is about to animate, so it can promote it to its own compositor layer early. This makes the first frame of the animation instant instead of janky.</p>
+
+      <pre><code>.animated-card {
+  will-change: transform;
+}</code></pre>
+
+      <p>But don't slap it on everything. Each compositor layer uses GPU memory. Overuse it and you'll run out of memory on low-end devices — your animation will degrade worse than if you hadn't used it at all. Apply it only to elements that are actively animating, and remove it after the animation completes if you're using JS.</p>
+
+      <h2 id="entrance-animations">Entrance Animations</h2>
+
+      <p>Scroll-triggered entrance animations are everywhere. Done right they're elegant. Done wrong they're the reason Lighthouse tanks your CLS score.</p>
+
+      <p>The correct pattern using IntersectionObserver:</p>
+
+      <pre><code>/* CSS */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}</code></pre>
+
+      <pre><code>// JS
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible')
+      observer.unobserve(e.target) // animate once
+    }
+  })
+}, { threshold: 0.1 })
+
+document.querySelectorAll('.fade-in')
+  .forEach(el => observer.observe(el))</code></pre>
+
+      <p>No scroll event listeners. No <code>getBoundingClientRect</code> in a scroll handler. IntersectionObserver runs off the main thread and is exactly designed for this.</p>
+
+      <h2 id="loading-skeletons">Skeleton Loaders</h2>
+
+      <p>Skeleton loading animations (the shimmer effect) are another common performance trap. The cheap implementation uses an animated <code>background</code> gradient:</p>
+
+      <pre><code>/* BAD — animates background, triggers paint */
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to   { background-position:  200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #eee 25%, #ddd 50%, #eee 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}</code></pre>
+
+      <p>The performant version uses a pseudo-element with <code>transform</code>:</p>
+
+      <pre><code>/* GOOD — composited shimmer */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: #1a1a2e;
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+  transform: translateX(-100%);
+  animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+  to { transform: translateX(100%); }
+}</code></pre>
+
+      <p>The gradient itself never changes — only the <code>transform</code> animates, so it's fully composited.</p>
+
+      <h2 id="checking-your-work">Checking Your Work</h2>
+
+      <p>Chrome DevTools has a built-in way to verify you're not triggering layout or paint:</p>
+
+      <ol>
+        <li>Open DevTools → Performance tab</li>
+        <li>Click the paint icon to enable "Paint flashing"</li>
+        <li>Trigger your animation</li>
+        <li>Green overlays = paint is happening = bad</li>
+      </ol>
+
+      <p>You can also use the "Rendering" panel → "Layer borders" to see which elements have been promoted to their own compositor layer.</p>
+
+      <blockquote>Every animation on this portfolio — the hover effects, the scroll reveals, the cursor — uses only <code>transform</code> and <code>opacity</code>. Open DevTools and check: no paint flashing anywhere.</blockquote>
+
+    </div>
+
+    <div class="post-share">
+      <span class="post-share-lbl">Share</span>
+      <a class="share-btn" href="https://twitter.com/intent/tweet?text=CSS+Animations+That+Don't+Kill+Performance&url=https://rohankakkar.com/blog/css-animations.html" target="_blank">Twitter / X</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://rohankakkar.com/blog/css-animations.html" target="_blank">LinkedIn</a>
+      <button class="share-btn" onclick="navigator.clipboard.writeText(location.href);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy Link',2000)">Copy Link</button>
+    </div>
+
+  </main>
+
+  <aside class="post-toc">
+    <div class="toc-title">On This Page</div>
+    <ul class="toc-list">
+      <li><a href="#how-the-browser-renders">How Browsers Render</a></li>
+      <li><a href="#the-golden-rules">The Golden Rules</a></li>
+      <li><a href="#use-transform-not-position">transform vs top/left</a></li>
+      <li><a href="#will-change">will-change</a></li>
+      <li><a href="#entrance-animations">Entrance Animations</a></li>
+      <li><a href="#loading-skeletons">Skeleton Loaders</a></li>
+      <li><a href="#checking-your-work">Checking Your Work</a></li>
+    </ul>
+  </aside>
+</div>
+
+<section class="post-related">
+  <h2 class="post-related-h">More <em>Writing</em></h2>
+  <div class="blog-grid" style="padding:0;">
+    <article class="blog-card" data-cat="dev-tools">
+      <a href="portfolio-build.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-tools">
+          <span class="bc-domain">rohankakkar.com</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-tools">Dev Tools</span><span class="bread-time">6 min read</span></div>
+        <h3 class="bc-title"><a href="portfolio-build.html">Building My Portfolio From Scratch</a></h3>
+        <p class="bc-excerpt">Pure HTML, CSS and JS. No frameworks, no templates.</p>
+        <div class="bc-footer"><span class="bdate">Dec 2025</span><a href="portfolio-build.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+    <article class="blog-card" data-cat="frontend">
+      <a href="mapleins-stack.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-frontend">
+          <span class="bc-tech-tag">Next.js</span>
+          <span class="bc-tech-tag">Supabase</span>
+          <span class="bc-tech-tag">AI/ML</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-frontend">Frontend</span><span class="bread-time">8 min read</span></div>
+        <h3 class="bc-title"><a href="mapleins-stack.html">The Full Stack Behind Mapleins</a></h3>
+        <p class="bc-excerpt">ATS resume scoring and AI job matching with Next.js and Supabase.</p>
+        <div class="bc-footer"><span class="bdate">Jan 2026</span><a href="mapleins-stack.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+    <article class="blog-card" data-cat="open-source">
+      <a href="stalejs.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-oss">
+          <span class="bc-oss-size">1.3kb</span>
+          <span class="bc-oss-label">zero deps</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-oss">Open Source</span><span class="bread-time">5 min read</span></div>
+        <h3 class="bc-title"><a href="stalejs.html">Building stalejs</a></h3>
+        <p class="bc-excerpt">A 1.3kb library that keeps any DOM element automatically up to date.</p>
+        <div class="bc-footer"><span class="bdate">Mar 2026</span><a href="stalejs.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-grid">
+    <div>
+      <span class="ft-brand">Rohan Kakkar</span>
+      <p class="ft-bio">Creative Developer crafting immersive digital experiences at the intersection of design and engineering. Available for freelance worldwide.</p>
+    </div>
+    <div class="ft-col"><h4>Work</h4><ul>
+      <li><a href="https://www.mapleins.com" target="_blank">Mapleins</a></li>
+      <li><a href="https://dev-pulse-rose.vercel.app/" target="_blank">Dev Pulse</a></li>
+      <li><a href="https://github.com/kptaan13/stalejs" target="_blank">stalejs</a></li>
+      <li><a href="https://kptaan13-aurora-agency.netlify.app/" target="_blank">Aurora Agency</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Blog</h4><ul>
+      <li><a href="stalejs.html">Building stalejs</a></li>
+      <li><a href="11-projects.html">11 Live Projects</a></li>
+      <li><a href="mapleins-stack.html">Mapleins Stack</a></li>
+      <li><a href="../blog.html">All Posts →</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Connect</h4><ul>
+      <li><a href="https://github.com/kptaan13" target="_blank">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/thekrohankakkar/" target="_blank">LinkedIn</a></li>
+      <li><a href="mailto:rohan61034kakkar@gmail.com">Email Me</a></li>
+    </ul></div>
+  </div>
+  <div class="ft-bottom">
+    <span class="ft-copy">© 2026 Rohan Kakkar · Designed &amp; Built from scratch</span>
+    <span class="ft-copy">rohan61034kakkar@gmail.com</span>
+  </div>
+</footer>
+
+<script src="../script.js" defer></script>
+<script>
+function toggleMenu(){
+  document.getElementById('ham').classList.toggle('open');
+  document.getElementById('mobMenu').classList.toggle('open');
+}
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+  document.querySelectorAll('.post-body h2,.post-body h3').forEach(h => {
+    const a = document.querySelector('.toc-list a[href="#' + h.id + '"]');
+    if (!a) return;
+    const rect = h.getBoundingClientRect();
+    a.classList.toggle('toc-active', rect.top < 120 && rect.top > -200);
+  });
+});
+</script>
+</body>
+</html>

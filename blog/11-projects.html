@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How I Shipped 11 Live Projects as a Solo Developer — Rohan Kakkar</title>
+<meta name="description" content="From Mapleins to stalejs — a breakdown of every project, what I learned building them, and what I'd do differently.">
+<meta name="author" content="Rohan Kakkar">
+<link rel="canonical" href="https://rohankakkar.com/blog/11-projects.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How I Shipped 11 Live Projects as a Solo Developer">
+<meta property="og:description" content="From Mapleins to stalejs — a breakdown of every project, what I learned, and what I'd do differently.">
+<meta property="og:site_name" content="Rohan Kakkar">
+<meta property="og:image" content="https://rohankakkar.com/og-blog.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How I Shipped 11 Live Projects as a Solo Developer">
+<meta name="twitter:description" content="From Mapleins to stalejs — a breakdown of every project, what I learned, and what I'd do differently.">
+<meta name="twitter:image" content="https://rohankakkar.com/og-blog.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How I Shipped 11 Live Projects as a Solo Developer",
+  "url": "https://rohankakkar.com/blog/11-projects.html",
+  "datePublished": "2026-02-01",
+  "description": "From Mapleins to stalejs — a breakdown of every project, what I learned, and what I'd do differently.",
+  "image": "https://rohankakkar.com/og-blog.png",
+  "author": { "@type": "Person", "name": "Rohan Kakkar", "url": "https://rohankakkar.com" },
+  "publisher": { "@type": "Person", "name": "Rohan Kakkar", "url": "https://rohankakkar.com" },
+  "keywords": ["Career", "Solo Developer", "Projects", "Portfolio", "Full Stack"]
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../blog.css">
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+<canvas id="stars"></canvas>
+
+<nav id="nav">
+  <a href="../index.html" class="nav-logo">R<em>.</em>Kakkar</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#projects">Work</a></li>
+    <li><a href="../index.html#experience">Journey</a></li>
+    <li><a href="../blog.html" class="blog-nav-active">Blog</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:rohan61034kakkar@gmail.com" class="nav-btn">
+    <div class="nav-dot"></div>Available
+  </a>
+</nav>
+<div class="ham" id="ham" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+<div class="mob-menu" id="mobMenu">
+  <a href="../index.html#about" onclick="toggleMenu()">About</a>
+  <a href="../index.html#skills" onclick="toggleMenu()">Skills</a>
+  <a href="../index.html#projects" onclick="toggleMenu()">Work</a>
+  <a href="../index.html#experience" onclick="toggleMenu()">Journey</a>
+  <a href="../blog.html" onclick="toggleMenu()">Blog</a>
+  <a href="../index.html#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<div class="post-wrap">
+  <main class="post-main">
+
+    <div class="post-cat-row">
+      <span class="bcat bcat-career">Career</span>
+      <span class="bmeta-sep">·</span>
+      <span class="bread-time">7 min read</span>
+      <span class="bmeta-sep">·</span>
+      <span class="bdate">February 2026</span>
+    </div>
+
+    <h1 class="post-title">How I Shipped 11 Live Projects as a Solo Developer</h1>
+
+    <div class="post-byline">
+      <div class="post-avatar">RK</div>
+      <div>
+        <div class="post-author-name">Rohan Kakkar</div>
+        <div class="post-author-sub">Full-Stack Developer · rohankakkar.com</div>
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      <p>People ask me all the time: how do you ship so many things? The honest answer is that most of these weren't planned as portfolio pieces. They were problems I wanted to solve, ideas I couldn't stop thinking about, or client briefs I decided to own end-to-end. Eleven live projects later, here's what I actually learned.</p>
+
+      <h2 id="the-list">The 11 Projects</h2>
+
+      <p>Quick rundown before we dig in:</p>
+
+      <ul>
+        <li><strong><a href="https://www.mapleins.com" target="_blank">Mapleins</a></strong> — Canadian AI job platform with ATS resume scoring and tailored matches</li>
+        <li><strong><a href="https://dev-pulse-rose.vercel.app/" target="_blank">Dev Pulse</a></strong> — Real-time GitHub activity dashboard</li>
+        <li><strong><a href="https://getdevcard.com" target="_blank">DevCard</a></strong> — Developer identity card generator</li>
+        <li><strong><a href="https://github.com/kptaan13/stalejs" target="_blank">stalejs</a></strong> — 1.3kb zero-dep DOM polling library</li>
+        <li><strong><a href="https://rohan-portfolio-peach.vercel.app/" target="_blank">Sketchbook</a></strong> — Alternative design portfolio</li>
+        <li><strong><a href="https://kptaan13-aurora-agency.netlify.app/" target="_blank">Aurora Agency</a></strong> — Creative agency landing page</li>
+        <li><strong><a href="https://kptaan13-pulse-nightlife.netlify.app/" target="_blank">Pulse Nightlife</a></strong> — Events / club night web experience</li>
+        <li><strong><a href="https://kptaan13-verdure-restaurant.netlify.app/" target="_blank">Verdure Restaurant</a></strong> — Upscale restaurant site</li>
+        <li><strong><a href="https://kptaan13-axiom-saas.netlify.app/" target="_blank">Axiom SaaS</a></strong> — SaaS product landing page</li>
+        <li><strong><a href="https://kptaan13-solstice-watches.netlify.app/" target="_blank">Solstice Watches</a></strong> — Luxury watch e-commerce concept</li>
+        <li><strong><a href="https://appointly-mu.vercel.app/" target="_blank">Appointly</a></strong> — Appointment scheduling tool</li>
+      </ul>
+
+      <h2 id="how-it-started">How It Actually Started</h2>
+
+      <p>The first few were pure exploration. I wanted to get better at React so I built Dev Pulse. I wanted to understand Supabase so I built something with a real database. Each project taught me something the next one could use.</p>
+
+      <p>The mistake most developers make is waiting until they're "ready" to start. You're never ready. You learn by building something slightly above your current level and figuring it out as you go. Every single project here taught me something I didn't know when I started it.</p>
+
+      <h2 id="the-pattern">The Pattern That Works</h2>
+
+      <p>After 11 projects I've noticed I follow the same four-step pattern, whether intentional or not:</p>
+
+      <ol>
+        <li><strong>Pick a real problem</strong> — not a tutorial clone. Mapleins came from watching friends struggle with the Canadian job market. stalejs came from writing the same boilerplate five times.</li>
+        <li><strong>Define the smallest version that's useful</strong> — not the full vision. What's the one thing it has to do?</li>
+        <li><strong>Ship it ugly</strong> — get it live. A live ugly thing beats a perfect local thing every time.</li>
+        <li><strong>Iterate with real feedback</strong> — once it's live, you get real data. What do people actually use? What's broken?</li>
+      </ol>
+
+      <h2 id="tech-stack">On Tech Stack Choices</h2>
+
+      <p>I don't have a dogmatic stack. I pick based on the project:</p>
+
+      <ul>
+        <li><strong>Next.js + Supabase</strong> for anything with auth, a database, or server-side rendering needs (Mapleins, Appointly)</li>
+        <li><strong>Pure HTML/CSS/JS</strong> for landing pages and brand sites — faster to ship, easier to deploy, no build step (Aurora, Pulse, Verdure, Solstice, Axiom)</li>
+        <li><strong>Vanilla JS libraries</strong> when I'm solving a specific technical problem (stalejs)</li>
+      </ul>
+
+      <p>The biggest lesson: don't reach for a framework because it's popular. A Verdure Restaurant page does not need React. A pure HTML file deployed to Netlify in 30 seconds is the right call.</p>
+
+      <h2 id="what-i-learned">What I Actually Learned</h2>
+
+      <p>Some non-obvious things that took multiple projects to sink in:</p>
+
+      <ul>
+        <li><strong>Deployment matters as much as code.</strong> A great product that nobody can access is worthless. I learned Vercel, Netlify, and custom domains early and it changed everything.</li>
+        <li><strong>Design is a skill, not a talent.</strong> My early projects looked rough. I studied design systems, stole patterns from products I admired, and iterated. Design improves with deliberate practice.</li>
+        <li><strong>Performance is a feature.</strong> Users notice slow. I didn't take web vitals seriously until a project loaded slowly on mobile and I watched someone close the tab.</li>
+        <li><strong>The README is part of the product.</strong> For open source work especially — if people can't understand what it does in 30 seconds, they won't use it.</li>
+      </ul>
+
+      <h2 id="what-id-do-differently">What I'd Do Differently</h2>
+
+      <p>Honest mistakes I made and wouldn't repeat:</p>
+
+      <ul>
+        <li><strong>Not setting up analytics from day one.</strong> I have no idea how many people visited early versions of these projects. That's a lot of lost signal.</li>
+        <li><strong>Over-engineering the first version.</strong> I spent weeks on Mapleins' infrastructure before anyone had used it. Ship the MVP, then scale.</li>
+        <li><strong>Not writing about what I built.</strong> Projects without documentation disappear. That's why I started this blog.</li>
+      </ul>
+
+      <h2 id="whats-next">What's Next</h2>
+
+      <p>The projects I'm most excited about going forward involve AI tooling for developers — specifically around the gap between what AI can generate and what actually works in production. More on that soon.</p>
+
+      <blockquote>If you're staring at an empty editor wondering how to start your first project: pick a problem you're annoyed by, build the smallest thing that solves it, and put it online. That's the whole playbook.</blockquote>
+
+    </div>
+
+    <div class="post-share">
+      <span class="post-share-lbl">Share</span>
+      <a class="share-btn" href="https://twitter.com/intent/tweet?text=How+I+Shipped+11+Live+Projects+as+a+Solo+Developer&url=https://rohankakkar.com/blog/11-projects.html" target="_blank">Twitter / X</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://rohankakkar.com/blog/11-projects.html" target="_blank">LinkedIn</a>
+      <button class="share-btn" onclick="navigator.clipboard.writeText(location.href);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy Link',2000)">Copy Link</button>
+    </div>
+
+  </main>
+
+  <aside class="post-toc">
+    <div class="toc-title">On This Page</div>
+    <ul class="toc-list">
+      <li><a href="#the-list">The 11 Projects</a></li>
+      <li><a href="#how-it-started">How It Started</a></li>
+      <li><a href="#the-pattern">The Pattern</a></li>
+      <li><a href="#tech-stack">Tech Stack Choices</a></li>
+      <li><a href="#what-i-learned">What I Learned</a></li>
+      <li><a href="#what-id-do-differently">What I'd Change</a></li>
+      <li><a href="#whats-next">What's Next</a></li>
+    </ul>
+  </aside>
+</div>
+
+<section class="post-related">
+  <h2 class="post-related-h">More <em>Writing</em></h2>
+  <div class="blog-grid" style="padding:0;">
+    <article class="blog-card" data-cat="frontend">
+      <a href="mapleins-stack.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-frontend">
+          <span class="bc-tech-tag">Next.js</span>
+          <span class="bc-tech-tag">Supabase</span>
+          <span class="bc-tech-tag">AI/ML</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-frontend">Frontend</span><span class="bread-time">8 min read</span></div>
+        <h3 class="bc-title"><a href="mapleins-stack.html">The Full Stack Behind Mapleins</a></h3>
+        <p class="bc-excerpt">How I built ATS resume scoring and AI job matching with Next.js and Supabase.</p>
+        <div class="bc-footer"><span class="bdate">Jan 2026</span><a href="mapleins-stack.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+    <article class="blog-card" data-cat="career">
+      <a href="freelance.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-career2">
+          <span class="bc-avail">Available<br>Worldwide</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-career">Career</span><span class="bread-time">6 min read</span></div>
+        <h3 class="bc-title"><a href="freelance.html">Getting Your First Freelance Client as a Developer</a></h3>
+        <p class="bc-excerpt">Cold outreach, portfolio positioning, and pricing — what actually worked.</p>
+        <div class="bc-footer"><span class="bdate">Oct 2025</span><a href="freelance.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+    <article class="blog-card" data-cat="dev-tools">
+      <a href="portfolio-build.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-tools">
+          <span class="bc-domain">rohankakkar.com</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-tools">Dev Tools</span><span class="bread-time">6 min read</span></div>
+        <h3 class="bc-title"><a href="portfolio-build.html">Building My Portfolio From Scratch</a></h3>
+        <p class="bc-excerpt">Pure HTML, CSS and JS. No frameworks, no templates.</p>
+        <div class="bc-footer"><span class="bdate">Dec 2025</span><a href="portfolio-build.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-grid">
+    <div>
+      <span class="ft-brand">Rohan Kakkar</span>
+      <p class="ft-bio">Creative Developer crafting immersive digital experiences at the intersection of design and engineering. Available for freelance worldwide.</p>
+    </div>
+    <div class="ft-col"><h4>Work</h4><ul>
+      <li><a href="https://www.mapleins.com" target="_blank">Mapleins</a></li>
+      <li><a href="https://dev-pulse-rose.vercel.app/" target="_blank">Dev Pulse</a></li>
+      <li><a href="https://github.com/kptaan13/stalejs" target="_blank">stalejs</a></li>
+      <li><a href="https://kptaan13-aurora-agency.netlify.app/" target="_blank">Aurora Agency</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Blog</h4><ul>
+      <li><a href="stalejs.html">Building stalejs</a></li>
+      <li><a href="11-projects.html">11 Live Projects</a></li>
+      <li><a href="mapleins-stack.html">Mapleins Stack</a></li>
+      <li><a href="../blog.html">All Posts →</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Connect</h4><ul>
+      <li><a href="https://github.com/kptaan13" target="_blank">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/thekrohankakkar/" target="_blank">LinkedIn</a></li>
+      <li><a href="mailto:rohan61034kakkar@gmail.com">Email Me</a></li>
+    </ul></div>
+  </div>
+  <div class="ft-bottom">
+    <span class="ft-copy">© 2026 Rohan Kakkar · Designed &amp; Built from scratch</span>
+    <span class="ft-copy">rohan61034kakkar@gmail.com</span>
+  </div>
+</footer>
+
+<script src="../script.js" defer></script>
+<script>
+function toggleMenu(){
+  document.getElementById('ham').classList.toggle('open');
+  document.getElementById('mobMenu').classList.toggle('open');
+}
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+  document.querySelectorAll('.post-body h2,.post-body h3').forEach(h => {
+    const a = document.querySelector('.toc-list a[href="#' + h.id + '"]');
+    if (!a) return;
+    const rect = h.getBoundingClientRect();
+    a.classList.toggle('toc-active', rect.top < 120 && rect.top > -200);
+  });
+});
+</script>
+</body>
+</html>

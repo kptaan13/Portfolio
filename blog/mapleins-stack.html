@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Full Stack Behind Mapleins — Rohan Kakkar</title>
+<meta name="description" content="How I built ATS resume scoring, 15+ tailored matches, and interview prep using Next.js, Supabase, and AI on Canada's job platform.">
+<meta name="author" content="Rohan Kakkar">
+<link rel="canonical" href="https://rohankakkar.com/blog/mapleins-stack.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Full Stack Behind Mapleins — Canada's AI Job Platform">
+<meta property="og:description" content="How I built ATS resume scoring, 15+ tailored matches, and interview prep using Next.js and Supabase.">
+<meta property="og:site_name" content="Rohan Kakkar">
+<meta property="og:image" content="https://rohankakkar.com/og-blog.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Full Stack Behind Mapleins — Canada's AI Job Platform">
+<meta name="twitter:description" content="How I built ATS resume scoring, 15+ tailored matches, and interview prep using Next.js and Supabase.">
+<meta name="twitter:image" content="https://rohankakkar.com/og-blog.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "The Full Stack Behind Mapleins — Canada's AI Job Platform",
+  "url": "https://rohankakkar.com/blog/mapleins-stack.html",
+  "datePublished": "2026-01-15",
+  "description": "How I built ATS resume scoring, 15+ tailored matches, and interview prep using Next.js and Supabase.",
+  "image": "https://rohankakkar.com/og-blog.png",
+  "author": { "@type": "Person", "name": "Rohan Kakkar", "url": "https://rohankakkar.com" },
+  "publisher": { "@type": "Person", "name": "Rohan Kakkar", "url": "https://rohankakkar.com" },
+  "keywords": ["Next.js", "Supabase", "AI", "Machine Learning", "Mapleins", "Canada", "Job Platform"]
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../blog.css">
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+<canvas id="stars"></canvas>
+
+<nav id="nav">
+  <a href="../index.html" class="nav-logo">R<em>.</em>Kakkar</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#projects">Work</a></li>
+    <li><a href="../index.html#experience">Journey</a></li>
+    <li><a href="../blog.html" class="blog-nav-active">Blog</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:rohan61034kakkar@gmail.com" class="nav-btn">
+    <div class="nav-dot"></div>Available
+  </a>
+</nav>
+<div class="ham" id="ham" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+<div class="mob-menu" id="mobMenu">
+  <a href="../index.html#about" onclick="toggleMenu()">About</a>
+  <a href="../index.html#skills" onclick="toggleMenu()">Skills</a>
+  <a href="../index.html#projects" onclick="toggleMenu()">Work</a>
+  <a href="../index.html#experience" onclick="toggleMenu()">Journey</a>
+  <a href="../blog.html" onclick="toggleMenu()">Blog</a>
+  <a href="../index.html#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<div class="post-wrap">
+  <main class="post-main">
+
+    <div class="post-cat-row">
+      <span class="bcat bcat-frontend">Frontend</span>
+      <span class="bmeta-sep">·</span>
+      <span class="bread-time">8 min read</span>
+      <span class="bmeta-sep">·</span>
+      <span class="bdate">January 2026</span>
+    </div>
+
+    <h1 class="post-title">The Full Stack Behind Mapleins — Canada's AI Job Platform</h1>
+
+    <div class="post-byline">
+      <div class="post-avatar">RK</div>
+      <div>
+        <div class="post-author-name">Rohan Kakkar</div>
+        <div class="post-author-sub">Full-Stack Developer · rohankakkar.com</div>
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      <p>The Canadian job market has a specific problem. Most job boards are designed for the US market and surface irrelevant roles, or they're government portals that haven't been updated since 2011. Job seekers are left uploading their resume to five different sites and hearing nothing back.</p>
+
+      <p>Mapleins is my attempt to fix that — a platform that combines ATS resume scoring, AI-powered job matching, and interview prep, built specifically for the Canadian market. Here's how it's built.</p>
+
+      <h2 id="the-stack">The Stack</h2>
+
+      <p>The core technologies:</p>
+
+      <ul>
+        <li><strong>Next.js 14</strong> (App Router) — for the frontend and API routes</li>
+        <li><strong>Supabase</strong> — PostgreSQL database, auth, realtime, and storage</li>
+        <li><strong>OpenAI API</strong> — for resume analysis and job match scoring</li>
+        <li><strong>Vercel</strong> — deployment and edge functions</li>
+        <li><strong>Tailwind CSS</strong> — styling</li>
+      </ul>
+
+      <p>I chose Next.js App Router because the platform needed both server-side rendering for SEO and client-side interactivity for the dashboard. Supabase was the obvious choice for the database layer — the Postgres extension ecosystem and built-in auth saved weeks of work.</p>
+
+      <h2 id="ats-scoring">ATS Resume Scoring</h2>
+
+      <p>The ATS (Applicant Tracking System) scorer is the core feature. Most large companies don't read your resume — a system does first. If your resume doesn't match the job description keywords, you're filtered out before a human sees it.</p>
+
+      <p>The Mapleins scorer works like this:</p>
+
+      <ol>
+        <li>User uploads their resume (PDF or DOCX)</li>
+        <li>We extract the text using a serverless function</li>
+        <li>We send the resume text + job description to GPT-4 with a structured prompt</li>
+        <li>GPT returns a JSON score with category breakdowns and specific improvement suggestions</li>
+        <li>We store the score in Supabase and display it in the dashboard</li>
+      </ol>
+
+      <p>The prompt engineering here matters a lot. Generic "rate this resume" prompts return garbage. I spent time crafting a prompt that evaluates: keyword match percentage, skills gap analysis, formatting quality, and impact language (did they use numbers and outcomes?). The response schema is typed and validated before it hits the database.</p>
+
+      <h2 id="job-matching">AI Job Matching</h2>
+
+      <p>The matching system generates 15+ curated job recommendations per user based on their resume profile. This isn't just keyword matching — the AI reads the resume holistically and matches it against job descriptions we've indexed from Canadian job boards.</p>
+
+      <p>The matching pipeline:</p>
+
+      <pre><code>// Simplified matching logic
+const userProfile = await extractProfile(resumeText)
+const jobs = await supabase
+  .from('jobs')
+  .select('*')
+  .eq('country', 'CA')
+  .limit(200)
+
+const scored = await Promise.all(
+  jobs.map(job => scoreMatch(userProfile, job))
+)
+
+return scored
+  .sort((a, b) => b.score - a.score)
+  .slice(0, 15)</code></pre>
+
+      <p>We run the matching in parallel using <code>Promise.all</code>, which keeps latency manageable even with 200 candidate jobs. The match score factors in role fit, location preference, experience level, and salary range when available.</p>
+
+      <h2 id="auth-and-data">Auth & Data Architecture</h2>
+
+      <p>Supabase Auth handles the entire authentication flow. I'm using Row Level Security (RLS) policies so users can only ever read and write their own data — no custom auth middleware needed.</p>
+
+      <p>The database schema is straightforward:</p>
+
+      <ul>
+        <li><code>users</code> — extended profile from Supabase auth</li>
+        <li><code>resumes</code> — stored file refs + extracted text</li>
+        <li><code>ats_scores</code> — score history per resume</li>
+        <li><code>job_matches</code> — cached match results</li>
+        <li><code>jobs</code> — indexed job listings</li>
+      </ul>
+
+      <p>I cache match results rather than rerunning the AI on every page load. The cache invalidates when the user uploads a new resume.</p>
+
+      <h2 id="performance">Performance Considerations</h2>
+
+      <p>The biggest performance challenge was the AI calls — GPT-4 can take 5–10 seconds for complex analysis. I solved this with a few patterns:</p>
+
+      <ul>
+        <li><strong>Optimistic UI</strong> — show loading states immediately, update when the result arrives</li>
+        <li><strong>Background processing</strong> — trigger the ATS score on upload, not on view. By the time the user navigates to the results page, it's usually ready.</li>
+        <li><strong>Edge caching</strong> — job listings are static enough to cache at the edge for 1 hour</li>
+      </ul>
+
+      <h2 id="what-i-learned">What I Learned</h2>
+
+      <p>A few things that surprised me building this:</p>
+
+      <ul>
+        <li><strong>Prompt engineering is real engineering.</strong> The difference between a useful AI feature and a party trick is in the prompt. I went through 20+ iterations before the ATS scorer was consistently useful.</li>
+        <li><strong>Supabase RLS is worth the learning curve.</strong> It felt complex at first but once it clicks, you get security guarantees that would take weeks to implement manually.</li>
+        <li><strong>Users don't read — they scan.</strong> I rewrote the dashboard UI three times before I accepted this and switched to a card-based layout with big numbers and clear CTAs.</li>
+      </ul>
+
+      <blockquote>Mapleins is live at <a href="https://www.mapleins.com" target="_blank">mapleins.com</a>. It's free to try — upload your resume and see your ATS score in under a minute.</blockquote>
+
+    </div>
+
+    <div class="post-share">
+      <span class="post-share-lbl">Share</span>
+      <a class="share-btn" href="https://twitter.com/intent/tweet?text=The+Full+Stack+Behind+Mapleins&url=https://rohankakkar.com/blog/mapleins-stack.html" target="_blank">Twitter / X</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://rohankakkar.com/blog/mapleins-stack.html" target="_blank">LinkedIn</a>
+      <button class="share-btn" onclick="navigator.clipboard.writeText(location.href);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy Link',2000)">Copy Link</button>
+    </div>
+
+  </main>
+
+  <aside class="post-toc">
+    <div class="toc-title">On This Page</div>
+    <ul class="toc-list">
+      <li><a href="#the-stack">The Stack</a></li>
+      <li><a href="#ats-scoring">ATS Resume Scoring</a></li>
+      <li><a href="#job-matching">AI Job Matching</a></li>
+      <li><a href="#auth-and-data">Auth & Data</a></li>
+      <li><a href="#performance">Performance</a></li>
+      <li><a href="#what-i-learned">What I Learned</a></li>
+    </ul>
+  </aside>
+</div>
+
+<section class="post-related">
+  <h2 class="post-related-h">More <em>Writing</em></h2>
+  <div class="blog-grid" style="padding:0;">
+    <article class="blog-card" data-cat="career">
+      <a href="11-projects.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-career">
+          <span class="bc-img-num">11</span>
+          <span class="bc-img-sub">Live Projects</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-career">Career</span><span class="bread-time">7 min read</span></div>
+        <h3 class="bc-title"><a href="11-projects.html">How I Shipped 11 Live Projects</a></h3>
+        <p class="bc-excerpt">A breakdown of every project, what I learned, and what I'd do differently.</p>
+        <div class="bc-footer"><span class="bdate">Feb 2026</span><a href="11-projects.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+    <article class="blog-card" data-cat="frontend">
+      <a href="css-animations.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-anim">
+          <div class="bc-anim-ring"></div>
+          <div class="bc-anim-ring bc-anim-ring2"></div>
+          <span class="bc-anim-label">60fps</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-frontend">Frontend</span><span class="bread-time">5 min read</span></div>
+        <h3 class="bc-title"><a href="css-animations.html">CSS Animations That Don't Kill Performance</a></h3>
+        <p class="bc-excerpt">GPU-composited animations that run smooth on any device.</p>
+        <div class="bc-footer"><span class="bdate">Nov 2025</span><a href="css-animations.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+    <article class="blog-card" data-cat="open-source">
+      <a href="stalejs.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-oss">
+          <span class="bc-oss-size">1.3kb</span>
+          <span class="bc-oss-label">zero deps</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-oss">Open Source</span><span class="bread-time">5 min read</span></div>
+        <h3 class="bc-title"><a href="stalejs.html">Building stalejs</a></h3>
+        <p class="bc-excerpt">A 1.3kb library that keeps any DOM element automatically up to date.</p>
+        <div class="bc-footer"><span class="bdate">Mar 2026</span><a href="stalejs.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-grid">
+    <div>
+      <span class="ft-brand">Rohan Kakkar</span>
+      <p class="ft-bio">Creative Developer crafting immersive digital experiences at the intersection of design and engineering. Available for freelance worldwide.</p>
+    </div>
+    <div class="ft-col"><h4>Work</h4><ul>
+      <li><a href="https://www.mapleins.com" target="_blank">Mapleins</a></li>
+      <li><a href="https://dev-pulse-rose.vercel.app/" target="_blank">Dev Pulse</a></li>
+      <li><a href="https://github.com/kptaan13/stalejs" target="_blank">stalejs</a></li>
+      <li><a href="https://kptaan13-aurora-agency.netlify.app/" target="_blank">Aurora Agency</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Blog</h4><ul>
+      <li><a href="stalejs.html">Building stalejs</a></li>
+      <li><a href="11-projects.html">11 Live Projects</a></li>
+      <li><a href="mapleins-stack.html">Mapleins Stack</a></li>
+      <li><a href="../blog.html">All Posts →</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Connect</h4><ul>
+      <li><a href="https://github.com/kptaan13" target="_blank">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/thekrohankakkar/" target="_blank">LinkedIn</a></li>
+      <li><a href="mailto:rohan61034kakkar@gmail.com">Email Me</a></li>
+    </ul></div>
+  </div>
+  <div class="ft-bottom">
+    <span class="ft-copy">© 2026 Rohan Kakkar · Designed &amp; Built from scratch</span>
+    <span class="ft-copy">rohan61034kakkar@gmail.com</span>
+  </div>
+</footer>
+
+<script src="../script.js" defer></script>
+<script>
+function toggleMenu(){
+  document.getElementById('ham').classList.toggle('open');
+  document.getElementById('mobMenu').classList.toggle('open');
+}
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+  document.querySelectorAll('.post-body h2,.post-body h3').forEach(h => {
+    const a = document.querySelector('.toc-list a[href="#' + h.id + '"]');
+    if (!a) return;
+    const rect = h.getBoundingClientRect();
+    a.classList.toggle('toc-active', rect.top < 120 && rect.top > -200);
+  });
+});
+</script>
+</body>
+</html>
