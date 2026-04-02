@@ -34,20 +34,59 @@ nav.s{background:rgba(7,7,12,.88);backdrop-filter:blur(20px);border-bottom-color
 .nav-links a:hover::after{width:100%;}
 
 /* ── TEXT REVEAL / SPOTLIGHT EFFECT ────────────────────────────────────────── */
-.tx-swap{position:relative;display:inline-block;}
-.tx-swap .tx-a{display:block;}
+/* Wrapper: both layers stacked, overflow hidden so alt never bleeds out      */
+.tx-swap{
+  position:relative;
+  display:inline-block;
+  cursor:none;
+  overflow:visible;   /* text can be wider than container — clip handles masking */
+}
+/* Base layer — always visible, sits below */
+.tx-swap .tx-a{
+  display:block;
+  position:relative;
+  z-index:1;
+}
+/* Alternate layer — same position, clipped to 0 at rest.
+   will-change promotes to its own compositor layer so clip-path
+   changes never trigger layout or paint — pure GPU composite.    */
 .tx-swap .tx-b{
   position:absolute;
   inset:0;
+  z-index:2;
+  display:flex;
+  align-items:center;
   color:var(--gold);
   white-space:nowrap;
   clip-path:circle(0px at 50% 50%);
   will-change:clip-path;
   pointer-events:none;
+  user-select:none;
 }
+/* Hero variant: italic gold */
 .hero-swap .tx-b{font-style:italic;}
-/* Enlarged cursor ring when over reveal zones */
-#cur2.spotlight{width:72px;height:72px;border-color:rgba(240,200,74,.55);}
+
+/* Cursor ring grows + glows when inside a reveal element */
+#cur2.spotlight{
+  width:100px;
+  height:100px;
+  border-color:rgba(240,200,74,.7);
+  box-shadow:0 0 24px rgba(240,200,74,.12);
+  transition:width .2s cubic-bezier(.4,0,.2,1),
+             height .2s cubic-bezier(.4,0,.2,1),
+             border-color .2s,box-shadow .2s;
+}
+
+/* Mobile tap flash */
+@media(hover:none) and (pointer:coarse){
+  .tx-swap{cursor:auto;}
+  .tx-swap.tapped .tx-a{opacity:0;transition:opacity .15s;}
+  .tx-swap.tapped .tx-b{
+    clip-path:circle(200% at 50% 50%) !important;
+    position:relative;inset:auto;display:block;
+    transition:clip-path .25s;
+  }
+}
 .nav-btn{padding:.5rem 1.4rem;border:1px solid var(--border-gold);font-size:.67rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);text-decoration:none;transition:all .35s;display:flex;align-items:center;gap:.5rem;}
 .nav-btn:hover{background:var(--gold);color:var(--bg);}
 .nav-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 7px #4ade80;animation:pulse 2s infinite;}

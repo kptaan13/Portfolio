@@ -78,23 +78,74 @@ if(!isTouchDevice && c1 && c2){
   document.addEventListener('mousedown',()=>burst(mx,my));
 
   // ── TEXT SPOTLIGHT REVEAL ────────────────────────────────────────────────────
-  document.querySelectorAll('.tx-swap').forEach(el=>{
-    const b=el.querySelector('.tx-b');
-    if(!b) return;
-    const isHero=el.classList.contains('hero-swap');
-    const r=isHero?110:58;
-    el.addEventListener('mousemove',e=>{
-      const rect=el.getBoundingClientRect();
-      const x=e.clientX-rect.left;
-      const y=e.clientY-rect.top;
-      b.style.clipPath=`circle(${r}px at ${x}px ${y}px)`;
-      if(c2) c2.classList.add('spotlight');
-    },{passive:true});
-    el.addEventListener('mouseleave',()=>{
-      b.style.clipPath='circle(0px at 50% 50%)';
-      if(c2) c2.classList.remove('spotlight');
-    });
-  });
+  // One rAF-driven instance per .tx-swap element.
+  // lerp smoothing makes the circle feel glued to the cursor with weight.
+  class TextReveal{
+    constructor(el){
+      this.el     = el;
+      this.alt    = el.querySelector('.tx-b');
+      if(!this.alt) return;
+
+      // circle radius: hero gets bigger spotlight
+      this.r      = el.classList.contains('hero-swap') ? 110 : 62;
+      this.lerp   = 0.13;    // 0.05 = buttery slow, 0.25 = snappy
+
+      // smoothed position (what clip-path actually uses)
+      this.cx = 0; this.cy = 0;
+      // raw target position (updated on every mousemove)
+      this.tx = 0; this.ty = 0;
+
+      this.active = false;
+      this.rafId  = null;
+
+      this._bind();
+      this._tick();           // start loop immediately; does nothing while inactive
+    }
+
+    _bind(){
+      this.el.addEventListener('mousemove', e=>{
+        const rect = this.el.getBoundingClientRect();
+        this.tx = e.clientX - rect.left;
+        this.ty = e.clientY - rect.top;
+      },{passive:true});
+
+      this.el.addEventListener('mouseenter', ()=>{
+        this.active = true;
+        if(c2){ c2.classList.add('spotlight'); c2.classList.remove('h'); }
+      });
+
+      this.el.addEventListener('mouseleave', ()=>{
+        this.active = false;
+        // Snap shut instantly on leave — feels clean
+        this.alt.style.clipPath = 'circle(0px at 50% 50%)';
+        if(c2) c2.classList.remove('spotlight');
+      });
+
+      // Mobile: tap reveals briefly
+      this.el.addEventListener('touchend', ()=>{
+        this.el.classList.add('tapped');
+        setTimeout(()=>this.el.classList.remove('tapped'), 700);
+      },{passive:true});
+    }
+
+    _tick(){
+      this.rafId = requestAnimationFrame(()=>this._tick());
+      if(!this.active) return;
+
+      // Exponential lerp: moves a fraction of the remaining distance each frame.
+      // At 60fps with lerp=0.13 it covers ~99% of distance in ~33ms — feels
+      // physically weighted without lag.
+      this.cx += (this.tx - this.cx) * this.lerp;
+      this.cy += (this.ty - this.cy) * this.lerp;
+
+      // clip-path is compositor-only: no layout, no paint. Pure GPU.
+      this.alt.style.clipPath =
+        `circle(${this.r}px at ${this.cx.toFixed(1)}px ${this.cy.toFixed(1)}px)`;
+    }
+  }
+
+  // Instantiate on every reveal element on this page
+  document.querySelectorAll('.tx-swap').forEach(el => new TextReveal(el));
 } else {
   // hide cursors on touch
   if(c1) c1.style.display='none';
