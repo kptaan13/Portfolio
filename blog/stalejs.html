@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building stalejs — Rohan Kakkar</title>
+<meta name="description" content="How I built stalejs: a 1.3kb zero-dependency library that keeps any DOM element automatically up to date.">
+<meta name="author" content="Rohan Kakkar">
+<link rel="canonical" href="https://rohankakkar.com/blog/stalejs.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Building stalejs: A Tiny Library That Keeps Your DOM Fresh">
+<meta property="og:description" content="Every live UI element needs the same 40 lines of boilerplate. I packaged it into 1.3kb.">
+<meta property="og:site_name" content="Rohan Kakkar">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../blog.css">
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+<canvas id="stars"></canvas>
+
+<nav id="nav">
+  <a href="../index.html" class="nav-logo">R<em>.</em>Kakkar</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#projects">Work</a></li>
+    <li><a href="../index.html#experience">Journey</a></li>
+    <li><a href="../blog.html" class="blog-nav-active">Blog</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:rohan61034kakkar@gmail.com" class="nav-btn">
+    <div class="nav-dot"></div>Available
+  </a>
+</nav>
+<div class="ham" id="ham" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+<div class="mob-menu" id="mobMenu">
+  <a href="../index.html#about" onclick="toggleMenu()">About</a>
+  <a href="../index.html#skills" onclick="toggleMenu()">Skills</a>
+  <a href="../index.html#projects" onclick="toggleMenu()">Work</a>
+  <a href="../index.html#experience" onclick="toggleMenu()">Journey</a>
+  <a href="../blog.html" onclick="toggleMenu()">Blog</a>
+  <a href="../index.html#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<!-- Post -->
+<div class="post-wrap">
+  <main class="post-main">
+
+    <div class="post-cat-row">
+      <span class="bcat bcat-oss">Open Source</span>
+      <span class="bmeta-sep">·</span>
+      <span class="bread-time">5 min read</span>
+      <span class="bmeta-sep">·</span>
+      <span class="bdate">March 2026</span>
+    </div>
+
+    <h1 class="post-title">Building stalejs: A Tiny Library That Keeps Your DOM Automatically Fresh</h1>
+
+    <div class="post-byline">
+      <div class="post-avatar">RK</div>
+      <div>
+        <div class="post-author-name">Rohan Kakkar</div>
+        <div class="post-author-sub">Full-Stack Developer · rohankakkar.com</div>
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      <p>Every time I needed a live UI element — a price ticker, a notification badge, a streak counter — I found myself writing the same block of code. Poll on an interval. Pause when the tab is hidden. Resume when it comes back. Pause when the element scrolls out of viewport. Handle network reconnect. Clean up when the element is removed.</p>
+
+      <p>It's about 40 lines. It works fine. But it's <strong>boilerplate</strong>, and I was tired of it.</p>
+
+      <p>So I extracted it, cleaned it up, made it configurable, and published it as <a href="https://github.com/kptaan13/stalejs" target="_blank">stalejs</a>. The whole thing is 1.3kb gzipped with zero dependencies.</p>
+
+      <h2 id="the-problem">The Problem It Solves</h2>
+
+      <p>Say you have a price element that needs to refresh every 30 seconds. The naive version looks like this:</p>
+
+      <pre><code>setInterval(async () => {
+  const data = await fetch('/api/price').then(r => r.json())
+  document.querySelector('#price').textContent = data.price
+}, 30000)</code></pre>
+
+      <p>This has problems. It keeps running when the tab is hidden — wasting requests. It doesn't pause when the element scrolls off screen. It doesn't recover if the network drops. And when the element is removed from the DOM, the interval keeps firing forever.</p>
+
+      <h2 id="the-solution">The stalejs Solution</h2>
+
+      <p>With stalejs, the same behaviour is one call:</p>
+
+      <pre><code>stale('#price', {
+  ttl: '30s',
+  refetch: () => fetch('/api/price').then(r => r.json()),
+  update:  (el, data) => { el.textContent = data.price }
+})</code></pre>
+
+      <p>That's it. Under the hood, stalejs automatically handles all of the following:</p>
+
+      <ul>
+        <li><strong>Tab visibility</strong> — pauses when <code>document.visibilityState</code> is hidden, resumes immediately on focus</li>
+        <li><strong>Intersection observer</strong> — pauses when the element scrolls out of the viewport, resumes when it comes back</li>
+        <li><strong>Network reconnect</strong> — listens to <code>window.online</code> and triggers a refetch when connection is restored</li>
+        <li><strong>Automatic cleanup</strong> — uses a <code>MutationObserver</code> on the element's parent to detect removal and tear everything down</li>
+      </ul>
+
+      <h2 id="building-it">How I Built It</h2>
+
+      <p>The core was straightforward — a class that wraps <code>setInterval</code> and wires up the observers. The tricky part was making sure all observers were properly torn down on cleanup to avoid memory leaks.</p>
+
+      <p>I used a <code>WeakMap</code> to store instance state against DOM elements, which means the garbage collector can clean up automatically if the consumer forgets to call <code>.destroy()</code>.</p>
+
+      <h3 id="the-ttl-parser">The TTL Parser</h3>
+
+      <p>One small thing I'm proud of is the TTL parser. Instead of requiring milliseconds, you can pass human-readable strings:</p>
+
+      <pre><code>ttl: '30s'   // 30 seconds
+ttl: '5m'    // 5 minutes
+ttl: '1h'    // 1 hour
+ttl: 2000    // raw ms still works</code></pre>
+
+      <h2 id="publishing">Publishing to NPM</h2>
+
+      <p>This was my first library on NPM. A few things I learned the hard way:</p>
+
+      <ul>
+        <li>Always ship both ESM and CJS builds. I used <a href="https://rollupjs.org" target="_blank">Rollup</a> to generate both.</li>
+        <li>Include TypeScript types even if you write in plain JS — consumers expect them.</li>
+        <li>Set <code>"sideEffects": false</code> in <code>package.json</code> so bundlers can tree-shake aggressively.</li>
+        <li>Semantic versioning matters from day one, not just when you have users.</li>
+      </ul>
+
+      <h2 id="wrapping-up">Wrapping Up</h2>
+
+      <p>stalejs is small, focused, and solves exactly one problem well. It works with any stack — vanilla JS, React, Vue, Svelte, HTMX — anything that has a DOM.</p>
+
+      <blockquote>If you find yourself copying the same visibility/polling/cleanup pattern, give it a try. It's on GitHub at <a href="https://github.com/kptaan13/stalejs" target="_blank">github.com/kptaan13/stalejs</a>.</blockquote>
+
+      <p>Stars and issues welcome.</p>
+
+    </div>
+
+    <!-- Share -->
+    <div class="post-share">
+      <span class="post-share-lbl">Share</span>
+      <a class="share-btn" href="https://twitter.com/intent/tweet?text=Building+stalejs+by+@rohankakkar&url=https://rohankakkar.com/blog/stalejs.html" target="_blank">Twitter / X</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://rohankakkar.com/blog/stalejs.html" target="_blank">LinkedIn</a>
+      <button class="share-btn" onclick="navigator.clipboard.writeText(location.href);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy Link',2000)">Copy Link</button>
+    </div>
+
+  </main>
+
+  <!-- Sticky TOC -->
+  <aside class="post-toc">
+    <div class="toc-title">On This Page</div>
+    <ul class="toc-list">
+      <li><a href="#the-problem">The Problem</a></li>
+      <li><a href="#the-solution">The Solution</a></li>
+      <li><a href="#building-it">How I Built It</a></li>
+      <li><a href="#the-ttl-parser">The TTL Parser</a></li>
+      <li><a href="#publishing">Publishing to NPM</a></li>
+      <li><a href="#wrapping-up">Wrapping Up</a></li>
+    </ul>
+  </aside>
+</div>
+
+<!-- Related posts -->
+<section class="post-related">
+  <h2 class="post-related-h">More <em>Writing</em></h2>
+  <div class="blog-grid" style="padding:0;">
+    <article class="blog-card" data-cat="career">
+      <a href="11-projects.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-career">
+          <span class="bc-img-num">11</span>
+          <span class="bc-img-sub">Live Projects</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-career">Career</span><span class="bread-time">7 min read</span></div>
+        <h3 class="bc-title"><a href="11-projects.html">How I Shipped 11 Live Projects as a Solo Developer</a></h3>
+        <p class="bc-excerpt">A breakdown of every project, what I learned, and what I'd do differently.</p>
+        <div class="bc-footer"><span class="bdate">Feb 2026</span><a href="11-projects.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+    <article class="blog-card" data-cat="open-source">
+      <a href="npm-package.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-oss">
+          <span class="bc-oss-size">1.3kb</span>
+          <span class="bc-oss-label">zero deps</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-oss">Open Source</span><span class="bread-time">4 min read</span></div>
+        <h3 class="bc-title"><a href="npm-package.html">What I Learned Publishing My First NPM Package</a></h3>
+        <p class="bc-excerpt">Bundling, tree-shaking, TypeScript types — everything nobody tells you upfront.</p>
+        <div class="bc-footer"><span class="bdate">Mar 2026</span><a href="npm-package.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+    <article class="blog-card" data-cat="frontend">
+      <a href="css-animations.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-anim">
+          <div class="bc-anim-ring"></div>
+          <div class="bc-anim-ring bc-anim-ring2"></div>
+          <span class="bc-anim-label">60fps</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-frontend">Frontend</span><span class="bread-time">5 min read</span></div>
+        <h3 class="bc-title"><a href="css-animations.html">CSS Animations That Don't Kill Performance</a></h3>
+        <p class="bc-excerpt">GPU-composited animations that run smooth on any device.</p>
+        <div class="bc-footer"><span class="bdate">Nov 2025</span><a href="css-animations.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-grid">
+    <div>
+      <span class="ft-brand">Rohan Kakkar</span>
+      <p class="ft-bio">Creative Developer crafting immersive digital experiences at the intersection of design and engineering. Available for freelance worldwide.</p>
+    </div>
+    <div class="ft-col"><h4>Work</h4><ul>
+      <li><a href="https://www.mapleins.com" target="_blank">Mapleins</a></li>
+      <li><a href="https://dev-pulse-rose.vercel.app/" target="_blank">Dev Pulse</a></li>
+      <li><a href="https://github.com/kptaan13/stalejs" target="_blank">stalejs</a></li>
+      <li><a href="https://kptaan13-aurora-agency.netlify.app/" target="_blank">Aurora Agency</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Blog</h4><ul>
+      <li><a href="stalejs.html">Building stalejs</a></li>
+      <li><a href="11-projects.html">11 Live Projects</a></li>
+      <li><a href="mapleins-stack.html">Mapleins Stack</a></li>
+      <li><a href="../blog.html">All Posts →</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Connect</h4><ul>
+      <li><a href="https://github.com/kptaan13" target="_blank">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/thekrohankakkar/" target="_blank">LinkedIn</a></li>
+      <li><a href="mailto:rohan61034kakkar@gmail.com">Email Me</a></li>
+    </ul></div>
+  </div>
+  <div class="ft-bottom">
+    <span class="ft-copy">© 2026 Rohan Kakkar · Designed &amp; Built from scratch</span>
+    <span class="ft-copy">rohan61034kakkar@gmail.com</span>
+  </div>
+</footer>
+
+<script src="../script.js" defer></script>
+<script>
+function toggleMenu(){
+  document.getElementById('ham').classList.toggle('open');
+  document.getElementById('mobMenu').classList.toggle('open');
+}
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+  // TOC active state
+  document.querySelectorAll('.post-body h2,.post-body h3').forEach(h => {
+    const a = document.querySelector('.toc-list a[href="#' + h.id + '"]');
+    if (!a) return;
+    const rect = h.getBoundingClientRect();
+    a.classList.toggle('toc-active', rect.top < 120 && rect.top > -200);
+  });
+});
+</script>
+</body>
+</html>

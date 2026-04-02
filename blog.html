@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Rohan Kakkar</title>
+<meta name="description" content="Dev notes, tutorials and project breakdowns from Rohan Kakkar — full-stack developer building real products.">
+<meta name="author" content="Rohan Kakkar">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://rohankakkar.com/blog.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rohankakkar.com/blog.html">
+<meta property="og:title" content="Blog — Rohan Kakkar">
+<meta property="og:description" content="Dev notes, tutorials and project breakdowns from Rohan Kakkar.">
+<meta property="og:site_name" content="Rohan Kakkar">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Blog — Rohan Kakkar">
+<meta name="twitter:description" content="Dev notes, tutorials and project breakdowns from Rohan Kakkar.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="blog.css">
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+<canvas id="stars"></canvas>
+
+<!-- Nav -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo">R<em>.</em>Kakkar</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#skills">Skills</a></li>
+    <li><a href="index.html#projects">Work</a></li>
+    <li><a href="index.html#experience">Journey</a></li>
+    <li><a href="blog.html" class="blog-nav-active">Blog</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:rohan61034kakkar@gmail.com" class="nav-btn">
+    <div class="nav-dot"></div>Available
+  </a>
+</nav>
+<div class="ham" id="ham" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+<div class="mob-menu" id="mobMenu">
+  <a href="index.html#about" onclick="toggleMenu()">About</a>
+  <a href="index.html#skills" onclick="toggleMenu()">Skills</a>
+  <a href="index.html#projects" onclick="toggleMenu()">Work</a>
+  <a href="index.html#experience" onclick="toggleMenu()">Journey</a>
+  <a href="blog.html" onclick="toggleMenu()">Blog</a>
+  <a href="index.html#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<!-- Blog Hero -->
+<section class="blog-hero">
+  <div class="blog-hero-inner">
+    <p class="sec-tag">Dev Notes</p>
+    <h1 class="blog-hero-h">Writing <em>&amp; Thoughts</em><br><span class="ghost">from the Build</span></h1>
+    <p class="blog-hero-p">Tutorials, project breakdowns, and real lessons from shipping 11 live products.<br>No fluff — just what actually works.</p>
+  </div>
+  <div class="blog-bignum">RK</div>
+</section>
+
+<!-- Filter tabs -->
+<div class="blog-filters">
+  <button class="bf bf-active" data-filter="all">All Posts</button>
+  <button class="bf" data-filter="open-source">Open Source</button>
+  <button class="bf" data-filter="frontend">Frontend</button>
+  <button class="bf" data-filter="career">Career</button>
+  <button class="bf" data-filter="dev-tools">Dev Tools</button>
+</div>
+
+<!-- Featured post -->
+<section class="blog-featured-wrap">
+  <a href="blog/stalejs.html" class="blog-featured">
+    <div class="bfeat-img">
+      <div class="bfeat-code-bg">
+        <div class="bfeat-code-block">
+          <span class="bfc-line"><span class="bfc-k">const</span> <span class="bfc-v">stale</span> <span class="bfc-p">=</span> <span class="bfc-fn">require</span><span class="bfc-p">(</span><span class="bfc-s">'stalejs'</span><span class="bfc-p">)</span></span>
+          <span class="bfc-line">&nbsp;</span>
+          <span class="bfc-line"><span class="bfc-fn">stale</span><span class="bfc-p">(</span><span class="bfc-s">'#price'</span><span class="bfc-p">, {</span></span>
+          <span class="bfc-line">&nbsp;&nbsp;<span class="bfc-k">ttl</span><span class="bfc-p">:</span> <span class="bfc-s">'30s'</span><span class="bfc-p">,</span></span>
+          <span class="bfc-line">&nbsp;&nbsp;<span class="bfc-k">refetch</span><span class="bfc-p">: () =&gt;</span> <span class="bfc-fn">fetch</span><span class="bfc-p">(</span><span class="bfc-s">'/api/price'</span><span class="bfc-p">),</span></span>
+          <span class="bfc-line">&nbsp;&nbsp;<span class="bfc-k">update</span><span class="bfc-p">: (el, data) =&gt; {</span></span>
+          <span class="bfc-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="bfc-v">el</span><span class="bfc-p">.</span><span class="bfc-fn">textContent</span> <span class="bfc-p">=</span> <span class="bfc-v">data</span><span class="bfc-p">.</span><span class="bfc-fn">price</span></span>
+          <span class="bfc-line">&nbsp;&nbsp;<span class="bfc-p">}</span></span>
+          <span class="bfc-line"><span class="bfc-p">})</span></span>
+        </div>
+        <div class="bfeat-glow"></div>
+      </div>
+      <span class="bfeat-label">Featured Post</span>
+    </div>
+    <div class="bfeat-body">
+      <div class="bfeat-meta">
+        <span class="bcat bcat-oss">Open Source</span>
+        <span class="bmeta-sep">·</span>
+        <span class="bread-time">5 min read</span>
+        <span class="bmeta-sep">·</span>
+        <span class="bdate">March 2026</span>
+      </div>
+      <h2 class="bfeat-title">Building stalejs: A Tiny Library That Keeps Your DOM Automatically Fresh</h2>
+      <p class="bfeat-excerpt">Every live UI element — a price ticker, notification badge, score widget — requires the same 40 lines of boilerplate every time. I got tired of writing it. So I packaged the whole pattern into 1.3kb and called it stalejs.</p>
+      <div class="bfeat-tags">
+        <span class="bfeat-tag">JavaScript</span>
+        <span class="bfeat-tag">Open Source</span>
+        <span class="bfeat-tag">NPM</span>
+        <span class="bfeat-tag">DOM</span>
+      </div>
+      <span class="bfeat-cta">Read Post <span class="bfeat-arrow">→</span></span>
+    </div>
+  </a>
+</section>
+
+<!-- Post grid -->
+<section class="blog-grid-wrap">
+  <div class="blog-grid" id="blogGrid">
+
+    <!-- Post 1 -->
+    <article class="blog-card" data-cat="career">
+      <a href="blog/11-projects.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-career">
+          <span class="bc-img-num">11</span>
+          <span class="bc-img-sub">Live Projects</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta">
+          <span class="bcat bcat-career">Career</span>
+          <span class="bread-time">7 min read</span>
+        </div>
+        <h3 class="bc-title"><a href="blog/11-projects.html">How I Shipped 11 Live Projects as a Solo Developer</a></h3>
+        <p class="bc-excerpt">From Mapleins to stalejs — a breakdown of every project, what I learned, and what I'd do differently.</p>
+        <div class="bc-footer">
+          <span class="bdate">Feb 2026</span>
+          <a href="blog/11-projects.html" class="bc-cta">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Post 2 -->
+    <article class="blog-card" data-cat="frontend">
+      <a href="blog/mapleins-stack.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-frontend">
+          <span class="bc-tech-tag">Next.js</span>
+          <span class="bc-tech-tag">Supabase</span>
+          <span class="bc-tech-tag">AI/ML</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta">
+          <span class="bcat bcat-frontend">Frontend</span>
+          <span class="bread-time">8 min read</span>
+        </div>
+        <h3 class="bc-title"><a href="blog/mapleins-stack.html">The Full Stack Behind Mapleins — Canada's AI Job Platform</a></h3>
+        <p class="bc-excerpt">How I built ATS resume scoring, 15+ tailored matches, and interview prep using Next.js and Supabase.</p>
+        <div class="bc-footer">
+          <span class="bdate">Jan 2026</span>
+          <a href="blog/mapleins-stack.html" class="bc-cta">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Post 3 -->
+    <article class="blog-card" data-cat="dev-tools">
+      <a href="blog/portfolio-build.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-tools">
+          <span class="bc-domain">rohankakkar.com</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta">
+          <span class="bcat bcat-tools">Dev Tools</span>
+          <span class="bread-time">6 min read</span>
+        </div>
+        <h3 class="bc-title"><a href="blog/portfolio-build.html">Building My Portfolio From Scratch — No Frameworks, No Templates</a></h3>
+        <p class="bc-excerpt">Pure HTML, CSS and JS. How I designed and coded a portfolio that actually represents my work.</p>
+        <div class="bc-footer">
+          <span class="bdate">Dec 2025</span>
+          <a href="blog/portfolio-build.html" class="bc-cta">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Post 4 -->
+    <article class="blog-card" data-cat="open-source">
+      <a href="blog/npm-package.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-oss">
+          <span class="bc-oss-size">1.3kb</span>
+          <span class="bc-oss-label">zero deps</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta">
+          <span class="bcat bcat-oss">Open Source</span>
+          <span class="bread-time">4 min read</span>
+        </div>
+        <h3 class="bc-title"><a href="blog/npm-package.html">What I Learned Publishing My First NPM Package</a></h3>
+        <p class="bc-excerpt">Bundling, tree-shaking, TypeScript types, semantic versioning — everything nobody tells you upfront.</p>
+        <div class="bc-footer">
+          <span class="bdate">Mar 2026</span>
+          <a href="blog/npm-package.html" class="bc-cta">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Post 5 -->
+    <article class="blog-card" data-cat="frontend">
+      <a href="blog/css-animations.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-anim">
+          <div class="bc-anim-ring"></div>
+          <div class="bc-anim-ring bc-anim-ring2"></div>
+          <span class="bc-anim-label">60fps</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta">
+          <span class="bcat bcat-frontend">Frontend</span>
+          <span class="bread-time">5 min read</span>
+        </div>
+        <h3 class="bc-title"><a href="blog/css-animations.html">CSS Animations That Don't Kill Performance</a></h3>
+        <p class="bc-excerpt">transform and opacity only. A practical guide to GPU-composited animations that run smooth on any device.</p>
+        <div class="bc-footer">
+          <span class="bdate">Nov 2025</span>
+          <a href="blog/css-animations.html" class="bc-cta">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Post 6 -->
+    <article class="blog-card" data-cat="career">
+      <a href="blog/freelance.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-career2">
+          <span class="bc-avail">Available<br>Worldwide</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta">
+          <span class="bcat bcat-career">Career</span>
+          <span class="bread-time">6 min read</span>
+        </div>
+        <h3 class="bc-title"><a href="blog/freelance.html">Getting Your First Freelance Client as a Developer</a></h3>
+        <p class="bc-excerpt">Cold outreach, portfolio positioning, and pricing — what actually worked for me when I started taking on client work.</p>
+        <div class="bc-footer">
+          <span class="bdate">Oct 2025</span>
+          <a href="blog/freelance.html" class="bc-cta">Read →</a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- Newsletter CTA -->
+<section class="blog-nl">
+  <div class="blog-nl-inner">
+    <p class="sec-tag">Stay Updated</p>
+    <h2 class="blog-nl-h">Get new posts <em>in your inbox</em></h2>
+    <p class="blog-nl-p">One email whenever I publish. Dev tutorials, project breakdowns, and what I'm building next. No spam — ever.</p>
+    <form class="blog-nl-form" onsubmit="nlSubmit(event)">
+      <input type="email" placeholder="your@email.com" class="blog-nl-input" required>
+      <button type="submit" class="blog-nl-btn">Subscribe →</button>
+    </form>
+    <p class="blog-nl-note" id="nlNote">Join developers who read Rohan's writing.</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="ft-grid">
+    <div>
+      <span class="ft-brand">Rohan Kakkar</span>
+      <p class="ft-bio">Creative Developer crafting immersive digital experiences at the intersection of design and engineering. Available for freelance worldwide.</p>
+    </div>
+    <div class="ft-col"><h4>Work</h4><ul>
+      <li><a href="https://www.mapleins.com" target="_blank">Mapleins</a></li>
+      <li><a href="https://dev-pulse-rose.vercel.app/" target="_blank">Dev Pulse</a></li>
+      <li><a href="https://rohan-portfolio-peach.vercel.app/" target="_blank">Sketchbook</a></li>
+      <li><a href="https://getdevcard.com" target="_blank">DevCard</a></li>
+      <li><a href="https://github.com/kptaan13/stalejs" target="_blank">stalejs</a></li>
+      <li><a href="https://kptaan13-aurora-agency.netlify.app/" target="_blank">Aurora Agency</a></li>
+      <li><a href="https://kptaan13-pulse-nightlife.netlify.app/" target="_blank">Pulse Nightlife</a></li>
+      <li><a href="https://kptaan13-verdure-restaurant.netlify.app/" target="_blank">Verdure Restaurant</a></li>
+      <li><a href="https://kptaan13-axiom-saas.netlify.app/" target="_blank">Axiom SaaS</a></li>
+      <li><a href="https://kptaan13-solstice-watches.netlify.app/" target="_blank">Solstice Watches</a></li>
+      <li><a href="https://appointly-mu.vercel.app/" target="_blank">Appointly</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Skills</h4><ul>
+      <li><a href="index.html#skills">React / Next.js</a></li>
+      <li><a href="index.html#skills">Node.js</a></li>
+      <li><a href="index.html#skills">HTML · CSS · JS</a></li>
+      <li><a href="index.html#skills">Figma</a></li>
+      <li><a href="index.html#skills">Python</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Connect</h4><ul>
+      <li><a href="https://github.com/kptaan13" target="_blank">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/thekrohankakkar/" target="_blank">LinkedIn</a></li>
+      <li><a href="mailto:rohan61034kakkar@gmail.com">Email Me</a></li>
+    </ul></div>
+  </div>
+  <div class="ft-bottom">
+    <span class="ft-copy">© 2026 Rohan Kakkar · Designed &amp; Built from scratch</span>
+    <span class="ft-copy">rohan61034kakkar@gmail.com</span>
+  </div>
+</footer>
+
+<script src="script.js" defer></script>
+<script>
+function toggleMenu(){
+  document.getElementById('ham').classList.toggle('open');
+  document.getElementById('mobMenu').classList.toggle('open');
+}
+// Filter
+document.querySelectorAll('.bf').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.bf').forEach(b => b.classList.remove('bf-active'));
+    btn.classList.add('bf-active');
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.blog-card').forEach(card => {
+      card.style.display = (f === 'all' || card.dataset.cat === f) ? '' : 'none';
+    });
+  });
+});
+// Newsletter
+function nlSubmit(e) {
+  e.preventDefault();
+  document.getElementById('nlNote').textContent = '✓ You\'re subscribed! First post coming soon.';
+  e.target.reset();
+}
+// Nav scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+});
+</script>
+</body>
+</html>
