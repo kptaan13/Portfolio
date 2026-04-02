@@ -362,6 +362,20 @@ nav.s{background:rgba(7,7,12,.88);backdrop-filter:blur(20px);border-bottom-color
 .dc-stat{background:rgba(139,92,246,.06);border:1px solid rgba(139,92,246,.12);border-radius:4px;padding:.28rem .3rem;}
 .dc-sn{font-size:.44rem;font-weight:700;color:#a78bfa;}
 .dc-sl{font-size:.38rem;color:rgba(167,139,250,.45);margin-top:.1rem;}
+/* stalejs — open source JS library */
+.cv-stalejs{background:#0a0c0f;position:relative;overflow:hidden;}
+.stale-bg{position:absolute;inset:0;background-image:radial-gradient(rgba(63,185,80,.04) 1px,transparent 1px);background-size:18px 18px;z-index:1;}
+.stale-top{position:absolute;top:0;left:0;right:0;padding:.5rem 1rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(63,185,80,.12);background:rgba(10,12,15,.7);backdrop-filter:blur(4px);z-index:7;}
+.stale-logo{font-size:.62rem;font-weight:700;letter-spacing:.08em;color:#3fb950;font-family:'DM Mono',monospace;}
+.stale-size{font-size:.42rem;letter-spacing:.1em;color:rgba(63,185,80,.5);border:1px solid rgba(63,185,80,.15);padding:.15rem .45rem;border-radius:20px;font-family:'DM Mono',monospace;}
+.stale-code{position:absolute;top:2.2rem;left:1rem;right:1rem;background:rgba(13,17,23,.85);border:1px solid rgba(63,185,80,.15);border-radius:6px;padding:.6rem .8rem;font-family:'DM Mono',monospace;font-size:.42rem;line-height:1.7;z-index:6;color:#e6edf3;}
+.stc-fn{color:#d2a8ff;}
+.stc-k{color:#79c0ff;}
+.stc-s{color:#a5d6ff;}
+.stc-p{color:rgba(230,237,243,.4);}
+.stale-pills{position:absolute;bottom:1.8rem;left:1rem;display:flex;gap:.3rem;flex-wrap:wrap;z-index:6;}
+.stale-pill{font-size:.38rem;font-weight:600;padding:.18rem .42rem;border-radius:20px;background:rgba(63,185,80,.08);border:1px solid rgba(63,185,80,.2);color:#3fb950;letter-spacing:.06em;font-family:'DM Mono',monospace;}
+.stale-stack{position:absolute;bottom:.55rem;left:1rem;right:1rem;font-size:.38rem;color:rgba(230,237,243,.3);font-family:'DM Mono',monospace;letter-spacing:.04em;z-index:6;}
 /* Dev Pulse — GitHub analytics */
 .cv-devpulse{background:#0d1117;}
 .dp-nav{position:absolute;top:0;left:0;right:0;padding:.55rem 1rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(48,54,61,.8);background:rgba(13,17,23,.7);backdrop-filter:blur(4px);z-index:7;}
