@@ -33,34 +33,21 @@ nav.s{background:rgba(7,7,12,.88);backdrop-filter:blur(20px);border-bottom-color
 .nav-links a:hover{color:var(--gold);}
 .nav-links a:hover::after{width:100%;}
 
-/* ── TEXT SWAP EFFECT ───────────────────────────────────────────────────────── */
-.tx-swap{
-  position:relative;
-  display:inline-flex;
-  flex-direction:column;
-  overflow:hidden;
-  vertical-align:bottom;
-  height:1em;
-}
-.tx-swap .tx-a,.tx-swap .tx-b{
-  display:block;
-  line-height:1;
-  transition:transform .3s cubic-bezier(.4,0,.2,1);
-  will-change:transform;
-}
+/* ── TEXT REVEAL / SPOTLIGHT EFFECT ────────────────────────────────────────── */
+.tx-swap{position:relative;display:inline-block;}
+.tx-swap .tx-a{display:block;}
 .tx-swap .tx-b{
   position:absolute;
-  top:100%;
-  left:0;
+  inset:0;
   color:var(--gold);
   white-space:nowrap;
+  clip-path:circle(0px at 50% 50%);
+  will-change:clip-path;
+  pointer-events:none;
 }
-.tx-swap:hover .tx-a{transform:translateY(-110%);}
-.tx-swap:hover .tx-b{transform:translateY(-110%);}
-
-/* Hero-size swap inherits parent line-height */
-.hero-swap{height:.9em;}
 .hero-swap .tx-b{font-style:italic;}
+/* Enlarged cursor ring when over reveal zones */
+#cur2.spotlight{width:72px;height:72px;border-color:rgba(240,200,74,.55);}
 .nav-btn{padding:.5rem 1.4rem;border:1px solid var(--border-gold);font-size:.67rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);text-decoration:none;transition:all .35s;display:flex;align-items:center;gap:.5rem;}
 .nav-btn:hover{background:var(--gold);color:var(--bg);}
 .nav-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 7px #4ade80;animation:pulse 2s infinite;}

@@ -76,6 +76,25 @@ if(!isTouchDevice && c1 && c2){
     el.addEventListener('mouseleave',()=>c2.classList.remove('h'));
   });
   document.addEventListener('mousedown',()=>burst(mx,my));
+
+  // ── TEXT SPOTLIGHT REVEAL ────────────────────────────────────────────────────
+  document.querySelectorAll('.tx-swap').forEach(el=>{
+    const b=el.querySelector('.tx-b');
+    if(!b) return;
+    const isHero=el.classList.contains('hero-swap');
+    const r=isHero?110:58;
+    el.addEventListener('mousemove',e=>{
+      const rect=el.getBoundingClientRect();
+      const x=e.clientX-rect.left;
+      const y=e.clientY-rect.top;
+      b.style.clipPath=`circle(${r}px at ${x}px ${y}px)`;
+      if(c2) c2.classList.add('spotlight');
+    },{passive:true});
+    el.addEventListener('mouseleave',()=>{
+      b.style.clipPath='circle(0px at 50% 50%)';
+      if(c2) c2.classList.remove('spotlight');
+    });
+  });
 } else {
   // hide cursors on touch
   if(c1) c1.style.display='none';
