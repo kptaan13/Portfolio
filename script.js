@@ -83,20 +83,29 @@ if(!isTouchDevice && c1 && c2){
   class TextReveal{
     constructor(el){
       this.el     = el;
+      this.base   = el.querySelector('.tx-a');
       this.alt    = el.querySelector('.tx-b');
       if(!this.alt) return;
+      this.el.classList.add('tx-reveal');
 
       // circle radius: hero gets bigger spotlight
       this.r      = el.classList.contains('hero-swap') ? 110 : 62;
       this.lerp   = 0.13;    // 0.05 = buttery slow, 0.25 = snappy
 
       // smoothed position (what clip-path actually uses)
-      this.cx = 0; this.cy = 0;
+      this.cx = this.el.clientWidth * 0.5;
+      this.cy = this.el.clientHeight * 0.5;
       // raw target position (updated on every mousemove)
-      this.tx = 0; this.ty = 0;
+      this.tx = this.cx; this.ty = this.cy;
 
       this.active = false;
       this.rafId  = null;
+      this.alt.style.clipPath = 'circle(0px at 50% 50%)';
+      this.alt.style.webkitClipPath = 'circle(0px at 50% 50%)';
+      if(this.base){
+        this.base.style.maskImage = 'none';
+        this.base.style.webkitMaskImage = 'none';
+      }
 
       this._bind();
       this._tick();           // start loop immediately; does nothing while inactive
@@ -118,6 +127,11 @@ if(!isTouchDevice && c1 && c2){
         this.active = false;
         // Snap shut instantly on leave — feels clean
         this.alt.style.clipPath = 'circle(0px at 50% 50%)';
+        this.alt.style.webkitClipPath = 'circle(0px at 50% 50%)';
+        if(this.base){
+          this.base.style.maskImage = 'none';
+          this.base.style.webkitMaskImage = 'none';
+        }
         if(c2) c2.classList.remove('spotlight');
       });
 
@@ -139,8 +153,14 @@ if(!isTouchDevice && c1 && c2){
       this.cy += (this.ty - this.cy) * this.lerp;
 
       // clip-path is compositor-only: no layout, no paint. Pure GPU.
-      this.alt.style.clipPath =
-        `circle(${this.r}px at ${this.cx.toFixed(1)}px ${this.cy.toFixed(1)}px)`;
+      const mask = `circle(${this.r}px at ${this.cx.toFixed(1)}px ${this.cy.toFixed(1)}px)`;
+      this.alt.style.clipPath = mask;
+      this.alt.style.webkitClipPath = mask;
+      if(this.base){
+        const invMask = `radial-gradient(circle ${this.r}px at ${this.cx.toFixed(1)}px ${this.cy.toFixed(1)}px, transparent 99%, #000 100%)`;
+        this.base.style.maskImage = invMask;
+        this.base.style.webkitMaskImage = invMask;
+      }
     }
   }
 
@@ -466,3 +486,4 @@ window.addEventListener('scroll',()=>{
     a.style.color=a.getAttribute('href')==='#'+cur?'var(--gold)':'';
   });
 },{passive:true});
+
