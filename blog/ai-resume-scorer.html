@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How I Built an AI Resume Scorer with Next.js and OpenAI — Rohan Kakkar</title>
+<meta name="description" content="Step-by-step: how I built an ATS resume scorer using Next.js App Router, OpenAI GPT-4, and Supabase. Covers PDF parsing, prompt engineering, scoring logic, and storing results.">
+<meta name="author" content="Rohan Kakkar">
+<meta name="robots" content="index, follow">
+<meta name="keywords" content="AI resume scorer, Next.js OpenAI tutorial, ATS resume tool, build ATS scorer, OpenAI API Next.js, resume parser JavaScript, GPT-4 resume analysis, Supabase Next.js">
+<link rel="canonical" href="https://rohankakkar.com/blog/ai-resume-scorer.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How I Built an AI Resume Scorer with Next.js and OpenAI">
+<meta property="og:description" content="Step-by-step: PDF parsing, GPT-4 prompt engineering, ATS scoring logic, and storing results in Supabase. Full technical breakdown.">
+<meta property="og:site_name" content="Rohan Kakkar">
+<meta property="og:image" content="https://rohankakkar.com/og-blog.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How I Built an AI Resume Scorer with Next.js and OpenAI">
+<meta name="twitter:description" content="PDF parsing, GPT-4 prompt engineering, ATS scoring logic, and Supabase. Full technical breakdown.">
+<meta name="twitter:image" content="https://rohankakkar.com/og-blog.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How I Built an AI Resume Scorer with Next.js and OpenAI",
+  "url": "https://rohankakkar.com/blog/ai-resume-scorer.html",
+  "datePublished": "2026-04-01",
+  "dateModified": "2026-04-01",
+  "description": "Step-by-step: how I built an ATS resume scorer using Next.js App Router, OpenAI GPT-4, and Supabase.",
+  "image": "https://rohankakkar.com/og-blog.png",
+  "author": { "@type": "Person", "name": "Rohan Kakkar", "url": "https://rohankakkar.com" },
+  "publisher": { "@type": "Person", "name": "Rohan Kakkar", "url": "https://rohankakkar.com" },
+  "keywords": ["Next.js", "OpenAI", "AI", "Resume", "ATS", "GPT-4", "Supabase", "Tutorial"],
+  "articleSection": "Frontend",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://rohankakkar.com/blog/ai-resume-scorer.html" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://rohankakkar.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://rohankakkar.com/blog.html" },
+    { "@type": "ListItem", "position": 3, "name": "How I Built an AI Resume Scorer", "item": "https://rohankakkar.com/blog/ai-resume-scorer.html" }
+  ]
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../blog.css">
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+<canvas id="stars"></canvas>
+
+<nav id="nav">
+  <a href="../index.html" class="nav-logo">R<em>.</em>Kakkar</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#about" class="tx-swap"><span class="tx-a">About</span><span class="tx-b">Who I am</span></a></li>
+    <li><a href="../index.html#skills" class="tx-swap"><span class="tx-a">Skills</span><span class="tx-b">What I use</span></a></li>
+    <li><a href="../index.html#projects" class="tx-swap"><span class="tx-a">Work</span><span class="tx-b">What I built</span></a></li>
+    <li><a href="../index.html#experience" class="tx-swap"><span class="tx-a">Journey</span><span class="tx-b">How I grew</span></a></li>
+    <li><a href="../blog.html" class="blog-nav-active tx-swap"><span class="tx-a">Blog</span><span class="tx-b">How I think</span></a></li>
+    <li><a href="../index.html#contact" class="tx-swap"><span class="tx-a">Contact</span><span class="tx-b">Let's talk</span></a></li>
+  </ul>
+  <a href="mailto:rohan61034kakkar@gmail.com" class="nav-btn">
+    <div class="nav-dot"></div>Available
+  </a>
+</nav>
+<div class="ham" id="ham" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+<div class="mob-menu" id="mobMenu">
+  <a href="../index.html#about" onclick="toggleMenu()">About</a>
+  <a href="../index.html#skills" onclick="toggleMenu()">Skills</a>
+  <a href="../index.html#projects" onclick="toggleMenu()">Work</a>
+  <a href="../index.html#experience" onclick="toggleMenu()">Journey</a>
+  <a href="../blog.html" onclick="toggleMenu()">Blog</a>
+  <a href="../index.html#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<div class="post-wrap">
+  <main class="post-main">
+
+    <div class="post-cat-row">
+      <span class="bcat bcat-frontend">Frontend</span>
+      <span class="bmeta-sep">·</span>
+      <span class="bread-time">10 min read</span>
+      <span class="bmeta-sep">·</span>
+      <span class="bdate">April 2026</span>
+    </div>
+
+    <h1 class="post-title">How I Built an AI Resume Scorer with Next.js and OpenAI</h1>
+
+    <div class="post-byline">
+      <div class="post-avatar">RK</div>
+      <div>
+        <div class="post-author-name">Rohan Kakkar</div>
+        <div class="post-author-sub">Full-Stack Developer · rohankakkar.com</div>
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      <p>Most job applications disappear into silence. Not because the candidate was unqualified — but because their resume didn't match the keywords an Applicant Tracking System (ATS) was scanning for. I built the ATS scorer inside <a href="https://www.mapleins.com" target="_blank">Mapleins</a> to solve exactly this. Here's the full technical breakdown.</p>
+
+      <h2 id="what-is-ats">What Is ATS Scoring and Why Does It Matter</h2>
+
+      <p>An Applicant Tracking System is software companies use to filter job applications before a human reads them. It scans resumes for keywords, formatting, and structure. Studies suggest over 75% of resumes are rejected by ATS before a recruiter sees them.</p>
+
+      <p>The Mapleins scorer simulates this — it reads your resume, compares it against a job description, and gives you a score with specific, actionable feedback. Not a generic "add more keywords" suggestion. Actual line-level recommendations.</p>
+
+      <h2 id="the-stack">The Stack</h2>
+
+      <ul>
+        <li><strong>Next.js 14</strong> (App Router) — API routes + server components</li>
+        <li><strong>OpenAI GPT-4o</strong> — the analysis engine</li>
+        <li><strong>Supabase</strong> — store scores, resumes, and user data</li>
+        <li><strong>pdf-parse</strong> — extract text from uploaded PDFs</li>
+        <li><strong>Vercel</strong> — deployment with edge functions</li>
+      </ul>
+
+      <h2 id="step-1-file-upload">Step 1 — File Upload and Text Extraction</h2>
+
+      <p>Everything starts with the resume upload. Users can drop a PDF or DOCX. I use Next.js API routes to handle the upload, then extract the raw text.</p>
+
+      <p>For PDFs:</p>
+
+      <pre><code>// app/api/parse-resume/route.ts
+import pdf from 'pdf-parse'
+
+export async function POST(req: Request) {
+  const formData = await req.formData()
+  const file = formData.get('resume') as File
+
+  const buffer = Buffer.from(await file.arrayBuffer())
+  const parsed  = await pdf(buffer)
+
+  return Response.json({ text: parsed.text })
+}</code></pre>
+
+      <p><code>pdf-parse</code> extracts clean text from most PDFs. The edge cases — multi-column layouts, image-based PDFs, tables — can trip it up. For image-based PDFs (scanned resumes) you'd need OCR. For Mapleins I added a warning when the extracted text is under 200 characters, which usually means the PDF is image-based.</p>
+
+      <p>For DOCX files I use <code>mammoth</code>:</p>
+
+      <pre><code>import mammoth from 'mammoth'
+
+const result = await mammoth.extractRawText({ buffer })
+const text   = result.value</code></pre>
+
+      <h2 id="step-2-prompt-engineering">Step 2 — Prompt Engineering (The Hard Part)</h2>
+
+      <p>This is where most AI features go wrong. A vague prompt gets vague output. The GPT-4o call needs to return structured, consistent JSON — not a paragraph of feedback that's different every time.</p>
+
+      <p>My prompt went through 20+ iterations. Here's the version that works:</p>
+
+      <pre><code>const systemPrompt = `
+You are an expert ATS (Applicant Tracking System) analyzer and career coach.
+Analyze the resume against the job description and return ONLY valid JSON.
+No markdown, no explanation outside the JSON object.
+
+Score each category 0-100. Be honest and critical — a score of 70 means there
+is real room for improvement. Do not give high scores unless the match is strong.
+`
+
+const userPrompt = `
+RESUME:
+${resumeText}
+
+JOB DESCRIPTION:
+${jobDescription}
+
+Return this exact JSON structure:
+{
+  "overall": <number 0-100>,
+  "categories": {
+    "keyword_match": <number>,
+    "skills_alignment": <number>,
+    "experience_relevance": <number>,
+    "formatting_quality": <number>,
+    "impact_language": <number>
+  },
+  "strengths": [<string>, <string>, <string>],
+  "improvements": [
+    { "issue": <string>, "fix": <string>, "priority": "high|medium|low" }
+  ],
+  "missing_keywords": [<string>],
+  "summary": <string 1-2 sentences>
+}
+`</code></pre>
+
+      <p>A few things that matter here:</p>
+
+      <ul>
+        <li><strong>"Return ONLY valid JSON"</strong> — without this, GPT wraps the JSON in markdown code fences. Your <code>JSON.parse()</code> will throw.</li>
+        <li><strong>Explicit scoring calibration</strong> — "70 means real room for improvement" stops the model from being over-generous. Without this instruction, scores cluster around 80-90 regardless of quality.</li>
+        <li><strong>The exact JSON structure</strong> — defining it upfront gets consistent output. I validate with Zod before touching the data.</li>
+      </ul>
+
+      <h2 id="step-3-the-api-route">Step 3 — The API Route</h2>
+
+      <pre><code>// app/api/score-resume/route.ts
+import OpenAI from 'openai'
+import { z } from 'zod'
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+
+// Zod schema validates GPT output before we trust it
+const ScoreSchema = z.object({
+  overall: z.number().min(0).max(100),
+  categories: z.object({
+    keyword_match:        z.number(),
+    skills_alignment:     z.number(),
+    experience_relevance: z.number(),
+    formatting_quality:   z.number(),
+    impact_language:      z.number(),
+  }),
+  strengths:        z.array(z.string()),
+  improvements:     z.array(z.object({
+    issue:    z.string(),
+    fix:      z.string(),
+    priority: z.enum(['high', 'medium', 'low'])
+  })),
+  missing_keywords: z.array(z.string()),
+  summary:          z.string(),
+})
+
+export async function POST(req: Request) {
+  const { resumeText, jobDescription, userId } = await req.json()
+
+  const completion = await openai.chat.completions.create({
+    model:       'gpt-4o',
+    temperature: 0.2,   // low temp = consistent, structured output
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user',   content: userPrompt(resumeText, jobDescription) }
+    ]
+  })
+
+  const raw   = completion.choices[0].message.content ?? ''
+  const json  = JSON.parse(raw)
+  const score = ScoreSchema.parse(json)   // throws if GPT hallucinated the shape
+
+  // Store in Supabase
+  await supabase.from('ats_scores').insert({
+    user_id:    userId,
+    score:      score.overall,
+    breakdown:  score.categories,
+    feedback:   score,
+    created_at: new Date().toISOString()
+  })
+
+  return Response.json(score)
+}</code></pre>
+
+      <p>Two things worth calling out: <code>temperature: 0.2</code> keeps the output deterministic and structured — higher values produce creative text, which is the opposite of what you want for JSON. And the Zod validation is non-negotiable. GPT will occasionally return a slightly different key name or an out-of-range number. Zod catches it before it corrupts your database.</p>
+
+      <h2 id="step-4-storing-scores">Step 4 — Storing and Caching Scores in Supabase</h2>
+
+      <p>Running GPT-4o on every page load would be both expensive and slow. I cache the score against the resume ID. The cache invalidates only when the user uploads a new resume.</p>
+
+      <pre><code>// Check for cached score first
+const { data: cached } = await supabase
+  .from('ats_scores')
+  .select('*')
+  .eq('resume_id', resumeId)
+  .order('created_at', { ascending: false })
+  .limit(1)
+  .single()
+
+if (cached) return Response.json(cached.feedback)
+
+// No cache — run the scorer
+const score = await runATSScorer(resumeText, jobDescription)
+await storeScore(score, resumeId, userId)
+return Response.json(score)</code></pre>
+
+      <p>The Supabase Row Level Security policy ensures users can only ever read their own scores:</p>
+
+      <pre><code>-- RLS policy
+CREATE POLICY "Users see own scores"
+ON ats_scores FOR SELECT
+USING (auth.uid() = user_id);</code></pre>
+
+      <h2 id="step-5-the-ui">Step 5 — Displaying Results</h2>
+
+      <p>The score UI needs to communicate three things at once: the overall number, the category breakdown, and the specific improvements. I use a radial progress ring for the overall score (SVG, animated with CSS), a horizontal bar chart for categories, and an accordion for improvements sorted by priority.</p>
+
+      <p>The most important UX decision: <strong>show the improvements first</strong>, not the score. Users who see a 62/100 and then scroll to find out why convert far better than users who see the score first and close the tab. Leading with "Here's what to fix" is more motivating than leading with a grade.</p>
+
+      <h2 id="performance">Performance — Handling the Latency</h2>
+
+      <p>GPT-4o takes 3–8 seconds for a detailed resume analysis. That's too long to show a blank screen. Three things I do:</p>
+
+      <ul>
+        <li><strong>Trigger on upload</strong>, not on view — start the API call the moment the PDF is confirmed, before the user navigates to the results page. By the time they click through, it's often ready.</li>
+        <li><strong>Streaming</strong> — for the summary text, I stream the response using <code>openai.chat.completions.stream()</code> so text appears word-by-word instead of all at once.</li>
+        <li><strong>Skeleton UI</strong> — the score cards render as skeletons immediately. They fill in as data arrives. No blank white screen.</li>
+      </ul>
+
+      <h2 id="what-i-learned">What I Learned</h2>
+
+      <ul>
+        <li><strong>Prompt engineering is the product.</strong> The model itself is a commodity — your prompts are your competitive advantage. Invest time here.</li>
+        <li><strong>Always validate AI output.</strong> Zod schema validation on every GPT response is not optional. It will fail in production without it.</li>
+        <li><strong>Low temperature for structured tasks.</strong> Save high temperature for creative tasks. For data extraction and scoring, keep it at 0.1–0.3.</li>
+        <li><strong>Cache everything.</strong> AI API calls are expensive. A caching layer pays for itself immediately at any real usage volume.</li>
+      </ul>
+
+      <blockquote>The full scorer is live at <a href="https://www.mapleins.com" target="_blank">mapleins.com</a> — upload your resume and get your ATS score in under 30 seconds. Free to use.</blockquote>
+
+    </div>
+
+    <div class="post-share">
+      <span class="post-share-lbl">Share</span>
+      <a class="share-btn" href="https://twitter.com/intent/tweet?text=How+I+Built+an+AI+Resume+Scorer+with+Next.js+and+OpenAI&url=https://rohankakkar.com/blog/ai-resume-scorer.html" target="_blank">Twitter / X</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://rohankakkar.com/blog/ai-resume-scorer.html" target="_blank">LinkedIn</a>
+      <button class="share-btn" onclick="navigator.clipboard.writeText(location.href);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy Link',2000)">Copy Link</button>
+    </div>
+
+  </main>
+
+  <aside class="post-toc">
+    <div class="toc-title">On This Page</div>
+    <ul class="toc-list">
+      <li><a href="#what-is-ats">What Is ATS Scoring</a></li>
+      <li><a href="#the-stack">The Stack</a></li>
+      <li><a href="#step-1-file-upload">File Upload & Parsing</a></li>
+      <li><a href="#step-2-prompt-engineering">Prompt Engineering</a></li>
+      <li><a href="#step-3-the-api-route">The API Route</a></li>
+      <li><a href="#step-4-storing-scores">Storing Scores</a></li>
+      <li><a href="#step-5-the-ui">Displaying Results</a></li>
+      <li><a href="#performance">Handling Latency</a></li>
+      <li><a href="#what-i-learned">What I Learned</a></li>
+    </ul>
+  </aside>
+</div>
+
+<section class="post-related">
+  <h2 class="post-related-h">More <em>Writing</em></h2>
+  <div class="blog-grid" style="padding:0;">
+    <article class="blog-card" data-cat="frontend">
+      <a href="mapleins-stack.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-frontend">
+          <span class="bc-tech-tag">Next.js</span>
+          <span class="bc-tech-tag">Supabase</span>
+          <span class="bc-tech-tag">AI/ML</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-frontend">Frontend</span><span class="bread-time">8 min read</span></div>
+        <h3 class="bc-title"><a href="mapleins-stack.html">The Full Stack Behind Mapleins</a></h3>
+        <p class="bc-excerpt">Architecture, auth, and AI matching — the full technical breakdown.</p>
+        <div class="bc-footer"><span class="bdate">Jan 2026</span><a href="mapleins-stack.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+    <article class="blog-card" data-cat="open-source">
+      <a href="npm-package.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-oss">
+          <span class="bc-oss-size">1.3kb</span>
+          <span class="bc-oss-label">zero deps</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-oss">Open Source</span><span class="bread-time">4 min read</span></div>
+        <h3 class="bc-title"><a href="npm-package.html">Publishing My First NPM Package</a></h3>
+        <p class="bc-excerpt">Bundling, tree-shaking, TypeScript types — everything nobody tells you.</p>
+        <div class="bc-footer"><span class="bdate">Mar 2026</span><a href="npm-package.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+    <article class="blog-card" data-cat="dev-tools">
+      <a href="portfolio-build.html" class="bc-img-wrap">
+        <div class="bc-img bc-img-tools">
+          <span class="bc-domain">rohankakkar.com</span>
+        </div>
+      </a>
+      <div class="bc-body">
+        <div class="bc-meta"><span class="bcat bcat-tools">Dev Tools</span><span class="bread-time">6 min read</span></div>
+        <h3 class="bc-title"><a href="portfolio-build.html">Building a Portfolio With No Framework</a></h3>
+        <p class="bc-excerpt">Pure HTML, CSS and JS. No build step, no dependencies.</p>
+        <div class="bc-footer"><span class="bdate">Dec 2025</span><a href="portfolio-build.html" class="bc-cta">Read →</a></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-grid">
+    <div>
+      <span class="ft-brand">Rohan Kakkar</span>
+      <p class="ft-bio">Creative Developer crafting immersive digital experiences at the intersection of design and engineering. Available for freelance worldwide.</p>
+    </div>
+    <div class="ft-col"><h4>Work</h4><ul>
+      <li><a href="https://www.mapleins.com" target="_blank">Mapleins</a></li>
+      <li><a href="https://dev-pulse-rose.vercel.app/" target="_blank">Dev Pulse</a></li>
+      <li><a href="https://github.com/kptaan13/stalejs" target="_blank">stalejs</a></li>
+      <li><a href="https://kptaan13-aurora-agency.netlify.app/" target="_blank">Aurora Agency</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Blog</h4><ul>
+      <li><a href="ai-resume-scorer.html">AI Resume Scorer</a></li>
+      <li><a href="stalejs.html">Building stalejs</a></li>
+      <li><a href="mapleins-stack.html">Mapleins Stack</a></li>
+      <li><a href="../blog.html">All Posts →</a></li>
+    </ul></div>
+    <div class="ft-col"><h4>Connect</h4><ul>
+      <li><a href="https://github.com/kptaan13" target="_blank">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/thekrohankakkar/" target="_blank">LinkedIn</a></li>
+      <li><a href="mailto:rohan61034kakkar@gmail.com">Email Me</a></li>
+    </ul></div>
+  </div>
+  <div class="ft-bottom">
+    <span class="ft-copy">© 2026 Rohan Kakkar · Designed &amp; Built from scratch</span>
+    <span class="ft-copy">rohan61034kakkar@gmail.com</span>
+  </div>
+</footer>
+
+<script src="../script.js" defer></script>
+<script>
+function toggleMenu(){
+  document.getElementById('ham').classList.toggle('open');
+  document.getElementById('mobMenu').classList.toggle('open');
+}
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+  document.querySelectorAll('.post-body h2,.post-body h3').forEach(h => {
+    const a = document.querySelector('.toc-list a[href="#' + h.id + '"]');
+    if (!a) return;
+    const rect = h.getBoundingClientRect();
+    a.classList.toggle('toc-active', rect.top < 120 && rect.top > -200);
+  });
+});
+</script>
+</body>
+</html>
