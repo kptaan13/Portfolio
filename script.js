@@ -442,10 +442,10 @@ window.doForm = async function doForm(e){
   btn.innerHTML='<span>Sending…</span>';
   btn.disabled=true;
   const fd=new FormData(e.target);
-  const payload={};
-  fd.forEach((val,key)=>payload[key]=val);
+  const payload={access_key:'5a0c62e3-dfa3-425c-b989-a6169c321c3e'};
+  fd.forEach((val,key)=>{ if(key!=='botcheck') payload[key]=val; });
   try{
-    const res=await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const res=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});
     const json=await res.json();
     btn.innerHTML=orig;
     btn.disabled=false;
