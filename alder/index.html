@@ -624,7 +624,9 @@ const maxAniso = renderer.capabilities.getMaxAnisotropy();
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(36, innerWidth/innerHeight, 0.1, 6000);
-const HOME = { pos:new THREE.Vector3(58, 22, 74), target:new THREE.Vector3(0, 15, 0) };
+const HOME = { pos:new THREE.Vector3(), target:new THREE.Vector3(0, 12, 2) };
+function homePos(){ const k = innerWidth/innerHeight < 0.8 ? 1.7 : 1; return HOME.pos.set(9*k, 10+68*k, 2+108*k); }
+homePos();
 camera.position.copy(HOME.pos);
 const controls = new OrbitControls(camera, canvas);
 controls.target.copy(HOME.target);
@@ -1079,7 +1081,7 @@ function frameUnit(u){
   const pos = new THREE.Vector3(ux*0.6 + (ux>=0?18:-18), y+9, sgn*(D/2+44));
   flyTo(pos, t);
 }
-function frameHome(){ flyTo(HOME.pos, HOME.target, 1.6); }
+function frameHome(){ flyTo(homePos().clone(), HOME.target, 1.6); }
 function frameAmenity(kind){
   if(kind==='pool') flyTo(new THREE.Vector3(16, ROOF_TOP+15, 26), new THREE.Vector3(-4, ROOF_TOP, 3), 1.6);
   else flyTo(new THREE.Vector3(2, 4.2, D/2+24), new THREE.Vector3(-8.5, 2.2, 2), 1.6);
