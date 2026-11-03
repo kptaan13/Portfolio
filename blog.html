@@ -362,10 +362,38 @@ document.querySelectorAll('.bf').forEach(btn => {
   });
 });
 // Newsletter
-function nlSubmit(e) {
+async function nlSubmit(e) {
   e.preventDefault();
-  document.getElementById('nlNote').textContent = '✓ You\'re subscribed! First post coming soon.';
-  e.target.reset();
+  const form = e.target;
+  const note = document.getElementById('nlNote');
+  const btn = form.querySelector('.blog-nl-btn');
+  const email = form.querySelector('input[type=email]').value.trim();
+  btn.disabled = true;
+  note.textContent = 'Subscribing…';
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        access_key: '5a0c62e3-dfa3-425c-b989-a6169c321c3e',
+        subject: 'New blog newsletter signup',
+        from_name: 'rohankakkar.com blog',
+        email,
+        replyto: email,
+        message: 'New newsletter signup: ' + email
+      })
+    });
+    const json = await res.json();
+    if (json.success) {
+      note.textContent = '✓ You\'re subscribed! First post coming soon.';
+      form.reset();
+    } else {
+      note.textContent = '✗ Couldn\'t subscribe right now — please try again later.';
+    }
+  } catch (err) {
+    note.textContent = '✗ Network error — please try again later.';
+  }
+  btn.disabled = false;
 }
 // Nav scroll
 window.addEventListener('scroll', () => {
