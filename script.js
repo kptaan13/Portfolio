@@ -444,6 +444,10 @@ window.doForm = async function doForm(e){
   const fd=new FormData(e.target);
   const payload={access_key:'5a0c62e3-dfa3-425c-b989-a6169c321c3e'};
   fd.forEach((val,key)=>{ if(key!=='botcheck') payload[key]=val; });
+  if(fd.get('botcheck')){ btn.innerHTML=orig; btn.disabled=false; return; } // honeypot: silently drop bots
+  payload.subject=`New portfolio message from ${payload['First Name']||'a visitor'}${payload['Project Type']?' — '+payload['Project Type']:''}`;
+  payload.from_name='rohankakkar.com';
+  payload.replyto=payload.email;
   try{
     const res=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});
     const json=await res.json();
