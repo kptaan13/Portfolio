@@ -26,7 +26,7 @@
   "@type": "Blog",
   "name": "Rohan Kakkar — Dev Notes",
   "url": "https://rohankakkar.com/blog.html",
-  "description": "Tutorials, project breakdowns, and lessons from shipping 11 real products.",
+  "description": "Tutorials, project breakdowns, and lessons from shipping 13 real products.",
   "author": {
     "@type": "Person",
     "name": "Rohan Kakkar",
@@ -74,7 +74,7 @@
   <div class="blog-hero-inner">
     <p class="sec-tag">Dev Notes</p>
     <h1 class="blog-hero-h">Writing <em>&amp; Thoughts</em><br><span class="ghost">from the Build</span></h1>
-    <p class="blog-hero-p">Tutorials, project breakdowns, and real lessons from shipping 11 live products.<br>No fluff — just what actually works.</p>
+    <p class="blog-hero-p">Tutorials, project breakdowns, and real lessons from shipping 13 live products.<br>No fluff — just what actually works.</p>
   </div>
   <div class="blog-bignum">RK</div>
 </section>
@@ -296,10 +296,10 @@
   <div class="blog-nl-inner">
     <p class="sec-tag">Stay Updated</p>
     <h2 class="blog-nl-h">Get new posts <em>in your inbox</em></h2>
-    <p class="blog-nl-p">One email whenever I publish. Dev tutorials, project breakdowns, and what I'm building next. No spam — ever.</p>
+    <p class="blog-nl-p">Leave your email and I'll personally let you know when a new post goes up. Dev tutorials, project breakdowns, and what I'm building next. No spam — ever.</p>
     <form class="blog-nl-form" onsubmit="nlSubmit(event)">
       <input type="email" placeholder="your@email.com" class="blog-nl-input" required>
-      <button type="submit" class="blog-nl-btn">Subscribe →</button>
+      <button type="submit" class="blog-nl-btn">Notify me →</button>
     </form>
     <p class="blog-nl-note" id="nlNote">Join developers who read Rohan's writing.</p>
   </div>
@@ -369,7 +369,7 @@ async function nlSubmit(e) {
   const btn = form.querySelector('.blog-nl-btn');
   const email = form.querySelector('input[type=email]').value.trim();
   btn.disabled = true;
-  note.textContent = 'Subscribing…';
+  note.textContent = 'Sending…';
   try {
     const res = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
@@ -385,10 +385,10 @@ async function nlSubmit(e) {
     });
     const json = await res.json();
     if (json.success) {
-      note.textContent = '✓ You\'re subscribed! First post coming soon.';
+      note.textContent = '✓ Got it — I\'ll email you when the next post is out.';
       form.reset();
     } else {
-      note.textContent = '✗ Couldn\'t subscribe right now — please try again later.';
+      note.textContent = '✗ That didn\'t go through — please try again later.';
     }
   } catch (err) {
     note.textContent = '✗ Network error — please try again later.';
